@@ -1,7 +1,7 @@
 /*
 脚本源地址：https://raw.githubusercontent.com/shaolin-kongfu/js_scripts/main/zq/zq_today_score.js
 
-15 19 * * * * https://raw.githubusercontent.com/solar24/JavaScript/main/zq/zq_today_score.js 中青收益统计
+15 19 * * *  https://raw.githubusercontent.com/solar24/JavaScript/main/zq/zq_today_score.js 中青收益统计
 
 // 1、环境变量 多个@分隔
 export zq_cookie = ''
