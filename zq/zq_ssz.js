@@ -2,7 +2,7 @@
 
 脚本源地址：https://raw.githubusercontent.com/shaolin-kongfu/js_scripts/main/zq/zqssz.js
 
-35 8 * * * https://raw.githubusercontent.com/solar24/JavaScript/main/zq/zq_ssz.js 中青搜索赚
+40 12 * * * https://raw.githubusercontent.com/solar24/JavaScript/main/zq/zq_ssz.js 中青搜索赚
 
 [rewrite_local]
 

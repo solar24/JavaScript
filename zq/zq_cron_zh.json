@@ -3,7 +3,7 @@
   "desc": "无",
   "date": "2021-11-12 16:14:08",
   "author": "https://github.com/solar24",
-  "resource": "https://ghproxy.com/https://raw.githubusercontent.com/solar24/JavaScript/main/zq/zq_cron_zh.json",
+  "resource": "https://ghproxy.com/https://raw.githubusercontent.com/solar24/JavaScript/main/zq/zq_cron.json",
   "list": [
     {
       "name": "中青阅读翻倍",
@@ -26,19 +26,9 @@
       }
     },
     {
-      "name": "中青看文章&视频",
-      "type": "cron",
-      "time": "3 0,10 * * *",
-      "running": true,
-      "job": {
-        "type": "runjs",
-        "target": "https://ghproxy.com/https://raw.githubusercontent.com/solar24/JavaScript/main/zq/zq_wz.js"
-      }
-    },
-    {
       "name": "中青打卡赚",
       "type": "cron",
-      "time": "24 5,9 * * *",
+      "time": "4 6,9 * * *",
       "running": true,
       "job": {
         "type": "runjs",
@@ -58,7 +48,7 @@
     {
       "name": "中青福利视频",
       "type": "cron",
-      "time": "36 6 * * *",
+      "time": "15 6 * * *",
       "running": true,
       "job": {
         "type": "runjs",
@@ -68,7 +58,7 @@
     {
       "name": "中青好友签到红包",
       "type": "cron",
-      "time": "5 7 * * *",
+      "time": "30 6 * * *",
       "running": true,
       "job": {
         "type": "runjs",
@@ -76,52 +66,13 @@
       }
     },
     {
-      "name": "中青看看赚",
+      "name": "中青看文章&视频",
       "type": "cron",
-      "time": "12 7,17 * * *",
+      "time": "40 6,14 * * *",
       "running": true,
       "job": {
         "type": "runjs",
-        "target": "https://ghproxy.com/https://raw.githubusercontent.com/solar24/JavaScript/main/zq/zq_kkz.js"
-      }
-    },
-    {
-      "name": "中青搜索赚",
-      "type": "cron",
-      "time": "35 8 * * *",
-      "running": true,
-      "job": {
-        "type": "runjs",
-        "target": "https://ghproxy.com/https://raw.githubusercontent.com/solar24/JavaScript/main/zq/zq_ssz.js "
-      }
-    },
-    {
-      "name": "中青浏览赚",
-      "type": "cron",
-      "time": "34 9 * * *",
-      "running": true,
-      "job": {
-        "type": "runjs",
-        "target": "https://ghproxy.com/https://raw.githubusercontent.com/solar24/JavaScript/main/zq/zq_llz.js"
-      }
-    },
-    {
-      "name": "中青5_60宝箱",
-      "type": "cron",
-      "time": "0 10 * * *",
-      "running": true,
-      "job": {
-        "type": "runjs",
-        "target": "https://ghproxy.com/https://raw.githubusercontent.com/solar24/JavaScript/main/zq/zq_5_60.js"
-      }
-    },
-    {
-      "name": "中青签到&任务宝箱",
-      "type": "cron",
-      "time": "1 10 * * *",
-      "job": {
-        "type": "runjs",
-        "target": "https://ghproxy.com/https://raw.githubusercontent.com/solar24/JavaScript/main/zq/zq_qd.js"
+        "target": "https://ghproxy.com/https://raw.githubusercontent.com/solar24/JavaScript/main/zq/zq_wz.js"
       }
     },
     {
@@ -135,9 +86,58 @@
       }
     },
     {
+      "name": "中青搜索赚",
+      "type": "cron",
+      "time": "40 12 * * *",
+      "running": true,
+      "job": {
+        "type": "runjs",
+        "target": "https://ghproxy.com/https://raw.githubusercontent.com/solar24/JavaScript/main/zq/zq_ssz.js "
+      }
+    },
+    {
+      "name": "中青浏览赚",
+      "type": "cron",
+      "time": "10 13 * * *",
+      "running": true,
+      "job": {
+        "type": "runjs",
+        "target": "https://ghproxy.com/https://raw.githubusercontent.com/solar24/JavaScript/main/zq/zq_llz.js"
+      }
+    },
+    {
+      "name": "中青看看赚",
+      "type": "cron",
+      "time": "40 13,21 * * *",
+      "running": true,
+      "job": {
+        "type": "runjs",
+        "target": "https://ghproxy.com/https://raw.githubusercontent.com/solar24/JavaScript/main/zq/zq_kkz.js"
+      }
+    },
+    {
+      "name": "中青5_60宝箱",
+      "type": "cron",
+      "time": "40 15 * * *",
+      "running": true,
+      "job": {
+        "type": "runjs",
+        "target": "https://ghproxy.com/https://raw.githubusercontent.com/solar24/JavaScript/main/zq/zq_5_60.js"
+      }
+    },
+    {
+      "name": "中青签到&任务宝箱",
+      "type": "cron",
+      "time": "41 15 * * *",
+      "job": {
+        "type": "runjs",
+        "target": "https://ghproxy.com/https://raw.githubusercontent.com/solar24/JavaScript/main/zq/zq_qd.js"
+      }
+    },
+    {
       "name": "中青大转盘抽奖",
       "type": "cron",
-      "time": "34 18 * * *",
+      "time": "40 20 * * *",
       "running": true,
       "job": {
         "type": "runjs",
@@ -147,7 +147,7 @@
     {
       "name": "中青收益统计",
       "type": "cron",
-      "time": "15 19 * * *",
+      "time": "15 22 * * *",
       "running": true,
       "job": {
         "type": "runjs",

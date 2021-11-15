@@ -2,7 +2,7 @@
 
 脚本源地址：https://raw.githubusercontent.com/shaolin-kongfu/js_scripts/main/zq/zqwz.js
 
-3 0,10 * * * https://raw.githubusercontent.com/solar24/JavaScript/main/zq/zq_wz.js 中青看文章&视频
+40 6,14 * * * https://raw.githubusercontent.com/solar24/JavaScript/main/zq/zq_wz.js 中青看文章&视频
 
 
 【rewrite】

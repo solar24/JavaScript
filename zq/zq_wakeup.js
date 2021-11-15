@@ -1,7 +1,7 @@
 /*
 脚本源地址：https://raw.githubusercontent.com/shaolin-kongfu/js_scripts/main/zq/zq_wakeup.js
 
-24 5,9 * * * https://raw.githubusercontent.com/solar24/JavaScript/main/zq/zq_wakeup.js 中青打卡赚
+4 6,9 * * * https://raw.githubusercontent.com/solar24/JavaScript/main/zq/zq_wakeup.js 中青打卡赚
 
 // 1、环境变量 多个@分隔
 export zq_cookie = ''

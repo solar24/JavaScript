@@ -5,7 +5,7 @@
 
 首次跑完之后需要打开 za_box.js 的重写，在app-任务-每日任务-看福利视频处，领取任务奖励，以后就不用管了
 
-36 6 * * * https://raw.githubusercontent.com/solar24/JavaScript/main/zq/zq_adv_video.js 中青福利视频
+15 6 * * * https://raw.githubusercontent.com/solar24/JavaScript/main/zq/zq_adv_video.js 中青福利视频
 
 // 1、环境变量 多个@分隔
 export zq_cookie = ''

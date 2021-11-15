@@ -2,7 +2,7 @@
 
 脚本源地址：https://gitee.com/Jxell/js_scripts/raw/main/zq/zq_5_60.js
 
-0 10 * * * https://raw.githubusercontent.com/solar24/JavaScript/main/zq/zq_5_60.js 中青5_60宝箱
+40 15 * * * https://raw.githubusercontent.com/solar24/JavaScript/main/zq/zq_5_60.js 中青5_60宝箱
 
 [rewrite_local]
 */

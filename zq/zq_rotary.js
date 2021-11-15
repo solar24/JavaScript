@@ -1,7 +1,7 @@
 /*
 脚本源地址：https://raw.githubusercontent.com/shaolin-kongfu/js_scripts/main/zq/zq_Rotary.js
 
-34 18 * * * https://raw.githubusercontent.com/solar24/JavaScript/main/zq/zq_rotary.js 中青大转盘抽奖
+40 20 * * * https://raw.githubusercontent.com/solar24/JavaScript/main/zq/zq_rotary.js 中青大转盘抽奖
 
 // 1、环境变量 多个@分隔
 export zq_cookie = ''

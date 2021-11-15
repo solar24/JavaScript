@@ -1,7 +1,7 @@
 /*
 脚本源地址：https://raw.githubusercontent.com/shaolin-kongfu/js_scripts/main/zq/zqqd.js
 
-1 10 * * * https://raw.githubusercontent.com/solar24/JavaScript/main/zq/zq_qd.js 中青签到&任务宝箱
+41 15 * * * https://raw.githubusercontent.com/solar24/JavaScript/main/zq/zq_qd.js 中青签到&任务宝箱
 
 [rewrite_local]
 

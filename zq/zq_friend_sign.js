@@ -5,7 +5,7 @@
 
 每天每位好友签到后有4个红包，前两个是100金币，后面两个是10金币，先抢先得
 
-5 7 * * * https://raw.githubusercontent.com/solar24/JavaScript/main/zq/zq_friend_sign.js 中青好友签到红包
+30 6 * * * https://raw.githubusercontent.com/solar24/JavaScript/main/zq/zq_friend_sign.js 中青好友签到红包
 
 // 1、环境变量 多个@分隔
 export zq_cookie = ''

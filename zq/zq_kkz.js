@@ -1,7 +1,7 @@
 /*
 脚本源地址：https://raw.githubusercontent.com/shaolin-kongfu/js_scripts/main/zq/zqkkz.js
 
-12 7,17 * * * https://raw.githubusercontent.com/solar24/JavaScript/main/zq/zq_kkz.js 中青看看赚
+40 13,21 * * * https://raw.githubusercontent.com/solar24/JavaScript/main/zq/zq_kkz.js 中青看看赚
 
 
 [rewrite_local]
