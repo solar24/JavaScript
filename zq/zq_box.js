@@ -57,7 +57,7 @@ Object.keys(zqboxbodys).forEach((item) => {
         $.done()
     }else {
         console.log(`\n====================共${zqboxbodyArr.length}个定时宝箱奖励====================\n`);
-        $.message = `\n`;
+        $.message = "";
         allScore = 0;
         for (let k = 0; k < zqboxbodyArr.length; k++) {
             zqboxbody1 = zqboxbodyArr[k];
@@ -78,7 +78,7 @@ Object.keys(zqboxbodys).forEach((item) => {
             await $.wait(sleep_time)
             console.log("\n\n")
         }
-        $.message = `【定时宝箱奖励】 ${allScore}\n`;
+        $.message = `【定时宝箱奖励】 ${allScore}\n 金币`;
 
         $.msg($.name, '', `${$.message}`);
         if ($.isNode()) {
@@ -124,7 +124,7 @@ function zq_box_reward(jcboxheader,timeout=0) {
                 const result = JSON.parse(data)
                 if (result.success !== false) {
                     score = result.items.score;
-                    allScore += score;
+                    allScore += parseInt(score);
                     console.log('\n领取宝箱奖励成功，获得：' + score +'金币')
                 } else {
                     console.log('\n领取宝箱奖励失败，' + result.error_code)

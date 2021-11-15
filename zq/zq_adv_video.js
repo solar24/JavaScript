@@ -53,7 +53,7 @@ Object.keys(zq_cookies).forEach((item) => {
 
 !(async () => {
     console.log(`\n====================共${zq_cookieArr.length}个中青账号Cookie====================\n`);
-    $.message = "\n";
+    $.message = "";
     for (let k = 0; k < zq_cookieArr.length; k++) {
         bodyVal = zq_cookieArr[k]
         let time1 = Date.parse(new Date()).toString();
@@ -63,10 +63,10 @@ Object.keys(zq_cookies).forEach((item) => {
         //待处理cookie
         console.log(`\n中青账号Cookie: ${zq_cookie1}\n`)
 
-        $.message += `\n第 ${k + 1} 个账号观看福利视频\n`;
+        $.message += `第 ${k + 1} 个账号观看福利视频\n\n`;
         console.log(`\n--------第 ${k + 1} 个账号观看福利视频中--------\n`)
         for (let j = 0; j < 6; j++) {
-            $.message += `第 ${j + 1} 次观看福利视频: `
+            $.message += `【第 ${j + 1} 次观看福利视频】  `
             console.log(`\n--------第 ${j + 1} 次观看福利视频中--------\n`)
             await video(zq_cookie1)
             let sleep_time = Math.floor(Math.random() * (15000 - 10000 + 1000) + 30000);

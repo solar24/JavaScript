@@ -53,7 +53,7 @@ Object.keys(zq_cookies).forEach((item) => {
 
 !(async () => {
     console.log(`\n====================共${zq_cookieArr.length}个中青账号Cookie====================\n`);
-    $.message = "\n";
+    $.message = "";
     for (let k = 0; k < zq_cookieArr.length; k++) {
         if (hour > 4 && hour !== 10 && hour !== 16 && hour !== 22) {
             var time1 = Date.parse(new Date()).toString();
@@ -78,6 +78,7 @@ Object.keys(zq_cookies).forEach((item) => {
             await $.wait(sleep_time);
             console.log("\n\n")
         } else {
+            $.message += `现在不是转发时段！`;
             console.log('\n现在不是转发时段！')
         }
     }

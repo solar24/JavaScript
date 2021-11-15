@@ -52,7 +52,8 @@ Object.keys(zq_cookies).forEach((item) => {
 
 !(async () => {
     console.log(`\n====================共${zq_cookieArr.length}个中青账号Cookie====================\n`);
-    $.message = "\n";
+    $.message = "";
+    allScore = 0;
     for (let k = 0; k < zq_cookieArr.length; k++) {
         var time1 = Date.parse(new Date()).toString();
         time1 = time1.substr(0, 10);
@@ -67,7 +68,7 @@ Object.keys(zq_cookies).forEach((item) => {
         $.message += `第 ${k + 1} 个账号\n`;
         console.log(`--------第 ${k + 1} 个账号好友查询中--------\n`)
         await friendList(zq_cookie1)
-        $.message += `【领取好友红包获得】: ${allScore} 金币\n\n`;
+        $.message += `【领取好友红包】 ${allScore} 金币\n`;
         let sleep_time = Math.floor(Math.random() * (1500 - 1000 + 1000) + 4000);
         console.log(`\n随机等待 ${sleep_time/1000} 秒\n`)
         await $.wait(sleep_time);
@@ -132,7 +133,7 @@ function friendSign(uid,timeout = 0) {
                 const result = JSON.parse(data)
                 if (result.success === true) {
                     score = result.data[result.data.length - 1].score;
-                    allScore += score;
+                    allScore += parseInt(score);
                     console.log('领取好友红包成功，获得：' + score + '金币')
                 } else {
                     console.log('\n该好友未签到或红包已完')

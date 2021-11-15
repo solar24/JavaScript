@@ -60,7 +60,7 @@ Object.keys(zqsszbodys).forEach((item) => {
         $.done()
     }else{
         console.log(`\n====================共${zqsszbodyArr.length}个搜索赚====================\n`);
-        $.message = `\n【搜索赚总数量】 ${zqsszbodyArr.length}\n`;
+        $.message = `【搜索赚总数量】 ${zqsszbodyArr.length}\n`;
         msg = "";
         allScore = 0;
         successNum = 0;
@@ -80,7 +80,7 @@ Object.keys(zqsszbodys).forEach((item) => {
         $.message += `【本次运行金币】 ${allScore}\n`;
         $.message += `【本次跳过数量】 ${doNum}\n`;
         $.message += `【本次失败数量】 ${failNum}\n`;
-        $.message += `【本次失败行数】 ${msg === "" ? `第 ${msg} 行` : "无"}\n`;
+        $.message += `【本次失败行数】 ${msg === "" ? "无" : `第 ${msg} 行`}\n`;
 
         $.msg($.name, '', `${$.message}`);
         if ($.isNode()) {
@@ -205,7 +205,7 @@ function end(timeout = 0) {
                 if (result.items.score !== "undefined") {
                     score = result.items.score;
                     successNum += 1;
-                    allScore += score;
+                    allScore += parseInt(score);
                     console.log('\n搜索赚获得：' + score + '金币')
                 } else {
                     console.log('\n领取奖励失败')

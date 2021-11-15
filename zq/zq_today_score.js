@@ -48,7 +48,7 @@ Object.keys(zq_cookies).forEach((item) => {
 
 !(async () => {
     console.log(`\n====================共${zq_cookieArr.length}个中青账号Cookie====================\n`);
-    $.message = "\n";
+    $.message = "";
     for (let k = 0; k < zq_cookieArr.length; k++) {
         $.message += `【中青账号 ${k + 1}】`
         bodyVal = zq_cookieArr[k].split('&uid=')[0];

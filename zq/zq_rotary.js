@@ -49,7 +49,7 @@ Object.keys(zq_cookies).forEach((item) => {
 
 !(async () => {
     console.log(`\n====================共${zq_cookieArr.length}个中青账号Cookie====================\n`);
-    $.message = "\n"
+    $.message = ""
     for (let k = 0; k < zq_cookieArr.length; k++) {
         const time = Date.parse(new Date()).toString();
         const time1 = time.substr(0, 10);
@@ -79,7 +79,7 @@ Object.keys(zq_cookies).forEach((item) => {
             console.log(`\n随机等待 ${sleep_time/1000} 秒\n`)
             await $.wait(sleep_time);
         }
-        $.message += `【宝箱获得】: ${allScore} 金币\n\n`;
+        $.message += `【宝箱获得】: ${allScore} 金币\n`;
         console.log("\n\n")
     }
 
@@ -107,8 +107,9 @@ function Rotary(zq_cookie1,cookie_id, time) {
                 const result = JSON.parse(data)
                 if (result.status === 1) {
                     if (result.data.score !== 0) {
-                        console.log('好家伙！你抽中了' + result.data.score + '金币')
-                        allScore += result.data.score;
+                        let score = result.data.score;
+                        allScore += parseInt(score);
+                        console.log('好家伙！你抽中了' + score + '金币')
                     } else {
                         console.log('你抽了个寂寞')
                     }
@@ -144,7 +145,9 @@ function openBox(zq_cookie1,cookie_id,time,k,timeout = 0) {
                 const result = JSON.parse(data)
                 if(result.status === 1 ){
                     if(result.data.score !== 0){
-                        console.log('宝箱获得：'+result.data.score + '金币')
+                        let score = result.data.score;
+                        allScore += parseInt(score);
+                        console.log('宝箱获得：'+ score + '金币')
 
                     }else {
                         console.log('宝箱打开失败')

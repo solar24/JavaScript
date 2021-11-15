@@ -17,7 +17,7 @@ kandian.wkandian.com
 
 */
 
-const $ = new Env("中青看文章&视频");
+const $ = new Env("中青文章视频");
 const notify = $.isNode() ? require('../sendNotify') : '';
 const { zq_wz_file, zq_wz_time_file } = $.isNode() ? require('./zq_file') : '';
 let zqwzbody= $.isNode() ? (process.env.zqwzbody ? process.env.zqwzbody : "") : ($.getdata('zqwzbody') ? $.getdata('zqwzbody') : "")
@@ -102,7 +102,7 @@ Object.keys(zqwzbodys).forEach((item) => {
         $.done()
     }else {
         console.log(`\n====================共${zqwzbodyArr.length}个阅读====================\n`);
-        $.message = `\n【文章&视频总数量】 ${zqwzbodyArr.length}\n`;
+        $.message = `【文章视频总数】 ${zqwzbodyArr.length}\n`;
         msg = "";
         allScore = 0;
         for (let k =  0; k < zqwzbodyArr.length; k++) {
@@ -122,7 +122,7 @@ Object.keys(zqwzbodys).forEach((item) => {
             console.log("\n\n")
         }
         $.message += `【本次运行金币】 ${allScore}\n`;
-        $.message += `【本次0金币文章】 ${msg === "" ? `第 ${msg} 行` : "无"}\n`;
+        $.message += `【0金币文章视频】 ${msg === "" ? "无" : `第 ${msg} 行`}\n`;
 
         $.msg($.name, '', `${$.message}`);
         if ($.isNode()) {
@@ -175,7 +175,7 @@ function wzjl(number, timeout = 0) {
                     msg += ` (${number}) `;
                 } else if (result.items.read_score !== "undefined" ){
                     let read_score = result.items.read_score;
-                    allScore += read_score;
+                    allScore += parseInt(read_score);
                     console.log('\n浏览文章成功，获得：'+ read_score + '金币')
                     if (result.items.read_score === 0) {
                         msg += ` (${number}) `;

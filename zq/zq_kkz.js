@@ -106,7 +106,7 @@ Object.keys(zqlookStartbodys).forEach((item) => {
         $.done()
     }else{
         console.log(`\n====================共${zqlookStartbodyArr.length}个看看赚====================\n`);
-        $.message = `\n【看看赚总数量】 ${zqlookStartbodyArr.length}\n`;
+        $.message = `【看看赚总数量】 ${zqlookStartbodyArr.length}\n`;
         msg = "";
         allScore = 0;
         successNum = 0;
@@ -125,7 +125,7 @@ Object.keys(zqlookStartbodys).forEach((item) => {
         $.message += `【本次运行金币】 ${allScore}\n`;
         $.message += `【本次跳过数量】 ${doNum}\n`;
         $.message += `【本次失败数量】 ${failNum}\n`;
-        $.message += `【本次失败行数】 ${msg === "" ? `第 ${msg} 行` : "无"}\n`;
+        $.message += `【本次失败行数】 ${msg === "" ? "无" : `第 ${msg} 行` }\n`;
 
         console.log(`\n====================共${zq_cookieArr.length}个中青账号Cookie====================\n`);
         for (let k = 0; k < zq_cookieArr.length; k++) {
@@ -267,7 +267,7 @@ function reward(timeout = 0) {
                 if (result.items.score !== "undefined") {
                     score = result.items.score
                     successNum += 1;
-                    allScore += score;
+                    allScore += parseInt(score);
                     console.log('\n看看赚获得：' + score + '金币')
                 } else {
                     console.log('\n领取奖励失败')

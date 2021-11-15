@@ -53,7 +53,7 @@ Object.keys(zq_cookies).forEach((item) => {
         $.done()
     } else {
         console.log(`\n====================共${zq_cookieArr.length}个中青账号Cookie====================\n`);
-        $.message = "\n";
+        $.message = "";
         for (let k = 0; k < zq_cookieArr.length; k++) {
             let time1 = Date.parse(new Date()).toString();
             time1 = time1.substr(0, 10);
@@ -63,7 +63,7 @@ Object.keys(zq_cookies).forEach((item) => {
             //待处理cookie
             console.log(`\n中青账号Cookie: ${zq_cookie1}\n`)
 
-            $.message += `\n第 ${k + 1} 个账号阅读翻倍: `
+            $.message += `【第 ${k + 1} 个账号阅读翻倍】 `
             console.log(`\n--------第 ${k + 1} 个账号阅读翻倍中--------\n`)
             await today_score(zq_cookie1)
             let sleep_time = Math.floor(Math.random() * (1500 - 1000 + 1000) + 4000);
@@ -97,8 +97,9 @@ function today_score(zq_cookie1,timeout = 0) {
                 const result = JSON.parse(data)
                 if(result.success === true){
                     console.log('\n翻倍结果:'+result.message)
-                    $.message += `${result.message}\\n`
+                    $.message += `${result.message}\n`
                 }else{
+                    $.message += `${result.message}\n`
                     console.log(result)
                 }
             } catch (e) {

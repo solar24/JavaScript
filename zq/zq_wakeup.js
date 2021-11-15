@@ -49,7 +49,7 @@ Object.keys(zq_cookies).forEach((item) => {
 
 !(async () => {
     console.log(`\n====================共${zq_cookieArr.length}个中青账号Cookie====================\n`);
-    $.message = "\n";
+    $.message = "";
     for (let k = 0; k < zq_cookieArr.length; k++) {
         var time1 = Date.parse( new Date() ).toString();
         time1 = time1.substr(0,10);
@@ -106,7 +106,7 @@ function signup(timeout = 0) {
                     console.log(`报名 ${result.msg} \n`)
                     console.log(`瓜分人数 ${signup1}\n`)
                     console.log(`瓜分金额 ${result.data.jackpot_money}`)
-                    $.message += `【打卡赚报名】 ${result.msg}\n【瓜分人数】 ${signup1} \n【瓜分金额】 ${result.data.jackpot_money}元\n\n`
+                    $.message += `【打卡赚报名】 ${result.msg}\n【瓜分人数】 ${signup1} \n【瓜分金额】 ${result.data.jackpot_money}元\n`
                 }else{
                     $.message += `【结果】 ${result.msg}\n`
                     console.log(result)
@@ -139,7 +139,7 @@ function wakeup(timeout = 0) {
                     console.log(`打卡时间： ${result.data.card_time} \n`)
                     console.log(`瓜分人数 ${signup}\n`)
                     console.log(`瓜分金额 ${result.data.jackpot_money}`)
-                    $.message = `【打卡结果】 ${result.msg}\n【打卡时间】 ${result.data.card_time}\n【瓜分人数】 ${signup}\n 【瓜分金额】 ${result.data.jackpot_money}元\n\n`
+                    $.message = `【打卡结果】 ${result.msg}\n【打卡时间】 ${result.data.card_time}\n【瓜分人数】 ${signup}\n 【瓜分金额】 ${result.data.jackpot_money}元\n`
                 }else{
                     console.log(result)
                 }
