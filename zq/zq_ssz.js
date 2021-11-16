@@ -14,7 +14,7 @@ hostname = kandian.wkandian.com
 
 const $ = new Env("中青搜索赚");
 const notify = $.isNode() ? require('../sendNotify') : '';
-const { zq_ssz_file } = $.isNode() ? require('./zq_file') : '';
+const { zq_ssz_file, user_name } = $.isNode() ? require('./zq_file') : '';
 let zqsszbody= $.isNode() ? (process.env.zqsszbody ? process.env.zqsszbody : "") : ($.getdata('zqsszbody') ? $.getdata('zqsszbody') : "")
 let zqsszbodyArr = []
 let zqsszbodys = "", zqsszbody1, msg, allScore, successNum, failNum, doNum;
@@ -60,7 +60,7 @@ Object.keys(zqsszbodys).forEach((item) => {
         $.done()
     }else{
         console.log(`\n====================共${zqsszbodyArr.length}个搜索赚====================\n`);
-        $.message = `【搜索赚总数量】 ${zqsszbodyArr.length}\n`;
+        $.message = `【中青账号】 ${user_name}\n【搜索赚总数量】 ${zqsszbodyArr.length}\n`;
         msg = "";
         allScore = 0;
         successNum = 0;
@@ -82,7 +82,7 @@ Object.keys(zqsszbodys).forEach((item) => {
         $.message += `【本次失败数量】 ${failNum}\n`;
         $.message += `【本次失败行数】 ${msg === "" ? "无" : `第 ${msg} 行`}\n`;
 
-        $.msg($.name, '', `${$.message}`);
+        $.msg($.name, '', `\n${$.message}\n`);
         if ($.isNode()) {
             await notify.sendNotify($.name, `${$.message}`);
         }
@@ -133,10 +133,10 @@ function Start(number, timeout = 0) {
                     comstate = result.items.comtele_state
                     if(comstate === 1){
                         doNum += 1;
-                        console.log('\n任务: '+ result.items.task_id+'已完成，跳过')
+                        console.log(`\n任务 ${result.items.task_id} 已完成，跳过...`)
                     }else {
-                        $.log("任务开始，" + result.items.task_id + result.message);
-                        for(let i = 0;i<4;i++){
+                        console.log(`\n任务开始: ${result.items.task_id} ${result.message}`);
+                        for(let i = 0;i < 4;i++){
                             let sleep_time = Math.floor(Math.random() * (1500 - 1000 + 1000) + 2000);
                             console.log(`\n随机等待 ${sleep_time/1000} 秒\n`)
                             await $.wait(sleep_time);
@@ -152,9 +152,7 @@ function Start(number, timeout = 0) {
                         }
 
                     }
-                }
-
-                else{
+                } else {
                     failNum += 1;
                     msg += ` (${number}) `;
                     console.log('\n激活搜索赚任务失败')
@@ -177,13 +175,15 @@ function look(timeout = 0) {
             try {
 
                 const result = JSON.parse(data)
-                console.log(result)
-                // if(result.items.score !== "undefined" ){
-                //     console.log('\n搜索赚获得：'+result.items.score + '金币')
-                // }else{
-                //     console.log('\n领取奖励失败')
-                // }
+                // console.log(result)
+                if(result.success === true ){
+                    console.log(`\n搜索赚任务：${result.message}`)
+                }else{
+                    console.log(`\n搜索赚任务失败：${result.message}`)
+                }
             } catch (e) {
+                console.log(data);
+                $.logErr(e, resp);
             } finally {
                 resolve()
             }
@@ -206,11 +206,13 @@ function end(timeout = 0) {
                     score = result.items.score;
                     successNum += 1;
                     allScore += parseInt(score);
-                    console.log('\n搜索赚获得：' + score + '金币')
+                    console.log(`\n搜索赚获得 ${score} 金币`)
                 } else {
-                    console.log('\n领取奖励失败')
+                    console.log(`\n搜索赚奖励失败: ${result}`)
                 }
             } catch (e) {
+                console.log(data);
+                $.logErr(e, resp);
             } finally {
                 resolve()
             }

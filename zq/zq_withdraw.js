@@ -95,7 +95,7 @@ Object.keys(zq_cookies).forEach((item) => {
         $.done()
     }else {
         console.log(`\n====================共${zq_cookieArr.length}个中青账号Cookie====================\n`);
-        $.message = "\n";
+        $.message = "";
         for (let k = 0; k < zq_cookieArr.length; k++) {
             time1 = Date.parse(new Date()).toString();
             time1 = time1.substr(0, 10);
@@ -108,7 +108,7 @@ Object.keys(zq_cookies).forEach((item) => {
             //待处理cookie
             console.log(`\n中青账号Cookie: ${zq_cookie1}\n`)
 
-            $.message += `第 ${k + 1} 个账号\n`;
+            $.message += `【中青账号】 `;
             console.log(`--------第 ${k + 1} 个账号收益查询中--------\n`)
             zq_withdraw1 = zq_withdrawArr[k]
             await nickname(zq_cookie2)
@@ -118,7 +118,7 @@ Object.keys(zq_cookies).forEach((item) => {
             console.log("\n\n")
         }
 
-        $.msg($.name, '', `${$.message}`);
+        $.msg($.name, '', `\n${$.message}\n`);
         if ($.isNode()) {
             await notify.sendNotify($.name, `${$.message}`);
         }
@@ -142,17 +142,19 @@ function nickname(zq_cookie2, timeout = 0) {
 
                 const result = JSON.parse(data)
                 if (result.success === true) {
-                    console.log('\n昵称:' + result.items.user.nickname)
                     nickname1 = result.items.user.nickname;
+                    console.log(`\n昵称: ${nickname1}`)
                     let sleep_time = Math.floor(Math.random() * (1500 - 1000 + 1000) + 1000);
                     console.log(`\n随机等待 ${sleep_time/1000} 秒\n`)
                     await $.wait(sleep_time);
                     await today_score(zq_cookie1, nickname1)
 
                 } else {
-                    console.log(result)
+                    console.log(`\n获取用户信息失败: ${result}`)
                 }
             } catch (e) {
+                console.log(data);
+                $.logErr(e, resp);
             } finally {
                 resolve()
             }
@@ -173,8 +175,8 @@ function today_score(zq_cookie1,timeout = 0) {
 
                 const result = JSON.parse(data)
                 if(result.status == 0){
-                    console.log('\n当前金币总数:'+result.user.score)
-                    console.log('\n折合人民币总数:'+result.user.money)
+                    console.log(`\n当前金币总数: ${result.user.score}`)
+                    console.log(`\n折合人民币总数: ${result.user.money}`)
                     now_money = result.user.money;
                     $.message += ` ${nickname1}\n【设置提现金额】 ${zq_cash}元\n【当前金币总数】 ${result.user.score}(≈${result.user.money}元)\n`
                     if(now_money >= zq_cash){
@@ -186,9 +188,11 @@ function today_score(zq_cookie1,timeout = 0) {
                         $.message += `【本次提现结果】 当前金币不满足兑换，请继续努力哦\n`
                     }
                 }else{
-                    console.log(result)
+                    console.log(`\n查询用户资产失败: ${result}`)
                 }
             } catch (e) {
+                console.log(data);
+                $.logErr(e, resp);
             } finally {
                 resolve()
             }
@@ -216,14 +220,16 @@ function withdraw(zq_withdraw1,timeout = 0) {
             try {
 
                 const result = JSON.parse(data)
-                if (result.error_code == 0) {
-                    console.log(result)
-                    console.log(`【自动提现】提现${zq_cash}元成功\n`)
-                    $.message += `【本次自动提现】 恭喜🎉！ 成功申请提现${zq_cash}元`;
+                if (result.error_code === 0) {
+                    console.log(`\n【自动提现】提现${zq_cash}元成功: ${result}`)
+                    $.message += `【本次自动提现】 恭喜🎉！ 成功申请提现${zq_cash}元\n`;
                 } else {
-                    console.log(result)
+                    $.message += `【本次自动提现】 失败，请前往日志查看原因\n`;
+                    console.log(`\n提现失败: ${result}`)
                 }
             } catch (e) {
+                console.log(data);
+                $.logErr(e, resp);
             } finally {
                 resolve()
             }

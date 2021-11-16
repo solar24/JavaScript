@@ -2,7 +2,7 @@
 
 脚本源地址：https://raw.githubusercontent.com/shaolin-kongfu/js_scripts/main/zq/zqllz.js
 
-10 13 * * * https://raw.githubusercontent.com/solar24/JavaScript/main/zq/zq_llz.js 中青浏览赚
+0 13 * * * https://raw.githubusercontent.com/solar24/JavaScript/main/zq/zq_llz.js 中青浏览赚
 
 [rewrite_local]
 
@@ -14,7 +14,7 @@ hostname = kandian.wkandian.com
 
 const $ = new Env("中青浏览赚");
 const notify = $.isNode() ? require('../sendNotify') : '';
-const { zq_llz_file } = $.isNode() ? require('./zq_file') : '';
+const { zq_llz_file, user_name } = $.isNode() ? require('./zq_file') : '';
 let zqllzbody= $.isNode() ? (process.env.zqllzbody ? process.env.zqllzbody : "") : ($.getdata('zqllzbody') ? $.getdata('zqllzbody') : "")
 let zqllzbodyArr = []
 let zqllzbodys = "", zqllzbody1, msg, allScore, successNum, failNum, doNum;
@@ -61,7 +61,7 @@ Object.keys(zqllzbodys).forEach((item) => {
         $.done()
     }else{
         console.log(`\n====================共${zqllzbodyArr.length}个浏览赚====================\n`);
-        $.message = `【浏览赚总数量】 ${zqllzbodyArr.length}\n`;
+        $.message = `【中青账号】 ${user_name}\n【浏览赚总数量】 ${zqllzbodyArr.length}\n`;
         msg = "";
         allScore = 0;
         successNum = 0;
@@ -82,7 +82,7 @@ Object.keys(zqllzbodys).forEach((item) => {
         $.message += `【本次失败数量】 ${failNum}\n`;
         $.message += `【本次失败行数】 ${msg === "" ? "无" : `第 ${msg} 行`}\n`;
 
-        $.msg($.name, '', `${$.message}`);
+        $.msg($.name, '', `\n${$.message}\n`);
         if ($.isNode()) {
             await notify.sendNotify($.name, `${$.message}`);
         }
@@ -133,22 +133,22 @@ function Start(number, timeout = 0) {
                     comstate = result.items.comtele_state
                     if(comstate === 1){
                         doNum += 1;
-                        console.log('\n任务: '+ result.items.banner_id+'已完成，跳过')
+                        console.log(`\n任务 ${result.items.banner_id} 已完成，跳过...`)
                     }else {
-                        $.log("任务开始，" + result.items.banner_id + result.message);
+                        console.log(`\n任务开始: ${result.items.banner_id} ${result.message}`);
                         let sleep_time = Math.floor(Math.random() * (1500 - 1000 + 1000) + 10000);
                         console.log(`\n随机等待 ${sleep_time/1000} 秒\n`)
                         await $.wait(sleep_time);
                         await end()
                     }
-                }
-
-                else{
+                } else {
                     failNum += 1;
                     msg += ` (${number}) `;
-                    console.log('\n激活浏览赚任务失败')
+                    console.log(`\n激活浏览赚任务失败: ${result}`)
                 }
             } catch (e) {
+                console.log(data);
+                $.logErr(e, resp);
             } finally {
                 resolve()
             }
@@ -171,11 +171,13 @@ function end(timeout = 0) {
                     score = result.items.score;
                     successNum += 1;
                     allScore += parseInt(score);
-                    console.log('\n浏览赚获得：' + result.items.score + '金币')
+                    console.log(`\n浏览赚获得: ${result.items.score} 金币`)
                 } else {
-                    console.log('\n领取奖励失败')
+                    console.log(`\n领取奖励失败: ${result}`)
                 }
             } catch (e) {
+                console.log(data);
+                $.logErr(e, resp);
             } finally {
                 resolve()
             }

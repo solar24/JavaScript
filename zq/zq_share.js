@@ -16,7 +16,7 @@ zq_cookie.txt
 
 const $ = new Env("中青火爆转发");
 const notify = $.isNode() ? require('../sendNotify') : '';
-const { zq_cookie_file } = $.isNode() ? require('./zq_file') : '';
+const { zq_cookie_file, user_name } = $.isNode() ? require('./zq_file') : '';
 let zq_cookie= $.isNode() ? (process.env.zq_cookie ? process.env.zq_cookie : "") : ($.getdata('zq_cookie') ? $.getdata('zq_cookie') : "")
 let zq_cookieArr = [], zq_cookies = "";
 let bodyVal, cookie, cookie_id, zq_cookie1;
@@ -66,7 +66,7 @@ Object.keys(zq_cookies).forEach((item) => {
             //待处理cookie
             console.log(`\n中青账号Cookie: ${zq_cookie1}\n`)
 
-            $.message += `第 ${k + 1} 个账号\n`;
+            $.message += `【中青账号】 ${user_name}\n`;
             console.log(`--------第 ${k + 1} 次转发奖励执行中--------\n`)
             await wz_list()
             let sleep_time = Math.floor(Math.random() * (1500 - 1000 + 1000) + 4000);
@@ -83,7 +83,7 @@ Object.keys(zq_cookies).forEach((item) => {
         }
     }
 
-    $.msg($.name, '', `${$.message}`);
+    $.msg($.name, '', `\n${$.message}\n`);
     if ($.isNode()) {
         await notify.sendNotify($.name, `${$.message}`);
     }
@@ -113,9 +113,11 @@ function wz_list(timeout = 5000) {
                     await share(wz_id)
 
                 } else {
-                    console.log(result)
+                    console.log(`\n获取分享列表失败: ${result}`)
                 }
             } catch (e) {
+                console.log(data);
+                $.logErr(e, resp);
             } finally {
                 resolve()
             }
@@ -139,10 +141,10 @@ function share(wzid,timeout=0) {
 
                 const result = JSON.parse(data)
                 if(result.status === 1){
-                    console.log(result.data)
-                    $.message += `【转发获得】 ${result.data.score} 金币`
+                    //console.log(result.data)
+                    $.message += `【转发结果】 太棒了！分享完成！\n`
                 }else{
-                    console.log(result)
+                    console.log(`\n转发失败：${result}`)
                 }
             } catch (e) {
             } finally {
@@ -176,9 +178,10 @@ function share_reward(timeout=0) {
 
                 const result = JSON.parse(data)
                 if(result.status === 1){
-                    console.log(result.data)
+                    console.log(`领取奖励 ${result}`)
+                    $.message += `【领取奖励】 ${result.data}`
                 }else{
-                    console.log(result)
+                    console.log(`领取奖励 ${result}`)
                     $.message += `【领取奖励】 ${result.msg}`
                 }
             } catch (e) {

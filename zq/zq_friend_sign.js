@@ -17,7 +17,7 @@ zq_cookie.txt
 
 const $ = new Env("中青好友签到红包");
 const notify = $.isNode() ? require('../sendNotify') : '';
-const { zq_cookie_file } = $.isNode() ? require('./zq_file') : '';
+const { zq_cookie_file, user_name } = $.isNode() ? require('./zq_file') : '';
 let zq_cookie= $.isNode() ? (process.env.zq_cookie ? process.env.zq_cookie : "") : ($.getdata('zq_cookie') ? $.getdata('zq_cookie') : "")
 let zq_cookieArr = [], zq_cookies = "";
 let bodyVal, cookie, cookie_id, zq_cookie1, allScore;
@@ -65,7 +65,7 @@ Object.keys(zq_cookies).forEach((item) => {
         //待处理cookie
         console.log(`\n中青账号Cookie: ${zq_cookie1}\n`)
 
-        $.message += `第 ${k + 1} 个账号\n`;
+        $.message += `【中青账号】 ${user_name}\n`;
         console.log(`--------第 ${k + 1} 个账号好友查询中--------\n`)
         await friendList(zq_cookie1)
         $.message += `【领取好友红包】 ${allScore} 金币\n`;
@@ -75,7 +75,7 @@ Object.keys(zq_cookies).forEach((item) => {
         console.log("\n\n")
     }
 
-    $.msg($.name, '', `${$.message}`);
+    $.msg($.name, '', `\n${$.message}\n`);
     if ($.isNode()) {
         await notify.sendNotify($.name, `${$.message}`);
     }
@@ -98,7 +98,6 @@ function friendList(zq_cookie1,timeout = 0) {
 
                 const result = JSON.parse(data)
                 if (result.success === true) {
-
                     for (let k = 0; k < result.data.list.length; k++) {
                         const friend_id = result.data.list[k].uid
                         console.log(result.data.list[k].uid)
@@ -107,11 +106,12 @@ function friendList(zq_cookie1,timeout = 0) {
                         console.log(`\n随机等待 ${sleep_time/1000} 秒\n`)
                         await $.wait(sleep_time);
                     }
-
                 } else {
-                    console.log('\n你个孤儿，没有好友')
+                    console.log(`\n你个孤儿，没有好友: ${result}`)
                 }
             } catch (e) {
+                console.log(data);
+                $.logErr(e, resp);
             } finally {
                 resolve()
             }
@@ -134,11 +134,13 @@ function friendSign(uid,timeout = 0) {
                 if (result.success === true) {
                     score = result.data[result.data.length - 1].score;
                     allScore += parseInt(score);
-                    console.log('领取好友红包成功，获得：' + score + '金币')
+                    console.log(`\n领取好友红包成功，获得 ${score} 金币`)
                 } else {
-                    console.log('\n该好友未签到或红包已完')
+                    console.log(`该好友未签到或红包已完: ${result}`)
                 }
             } catch (e) {
+                console.log(data);
+                $.logErr(e, resp);
             } finally {
                 resolve()
             }

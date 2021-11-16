@@ -13,7 +13,7 @@ zq_cookie.txt
 
 const $ = new Env("中青打卡赚");
 const notify = $.isNode() ? require('../sendNotify') : '';
-const { zq_cookie_file } = $.isNode() ? require('./zq_file') : '';
+const { zq_cookie_file, user_name } = $.isNode() ? require('./zq_file') : '';
 let zq_cookie= $.isNode() ? (process.env.zq_cookie ? process.env.zq_cookie : "") : ($.getdata('zq_cookie') ? $.getdata('zq_cookie') : "")
 let zq_cookieArr = [], zq_cookies = "";
 let bodyVal, cookie, cookie_id, zq_cookie1;
@@ -61,7 +61,7 @@ Object.keys(zq_cookies).forEach((item) => {
         //待处理cookie
         console.log(`\n中青账号Cookie: ${zq_cookie1}\n`)
 
-        $.message += `第 ${k + 1} 个账号\n`;
+        $.message += `【中青账号】 ${user_name}\n`;
         if(hour >= 8 ){
             console.log(`--------第 ${k + 1} 个账号早起打卡报名中--------\n`)
             await signup()
@@ -79,7 +79,7 @@ Object.keys(zq_cookies).forEach((item) => {
         }
     }
 
-    $.msg($.name, '', `${$.message}`);
+    $.msg($.name, '', `\n${$.message}\n`);
     if ($.isNode()) {
         await notify.sendNotify($.name, `${$.message}`);
     }
@@ -103,15 +103,17 @@ function signup(timeout = 0) {
                 if(result.code === 1 ){
                     signup1 = result.data.signup_num
                     //console.log(result)
-                    console.log(`报名 ${result.msg} \n`)
-                    console.log(`瓜分人数 ${signup1}\n`)
-                    console.log(`瓜分金额 ${result.data.jackpot_money}`)
-                    $.message += `【打卡赚报名】 ${result.msg}\n【瓜分人数】 ${signup1} \n【瓜分金额】 ${result.data.jackpot_money}元\n`
+                    console.log(`\n报名 ${result.msg}`)
+                    console.log(`\n瓜分人数 ${signup1}`)
+                    console.log(`\n瓜分金额 ${result.data.jackpot_money}`)
+                    $.message += `【打卡报名】 ${result.msg}\n【瓜分人数】 ${signup1} \n【瓜分金额】 ${result.data.jackpot_money}元\n`
                 }else{
-                    $.message += `【结果】 ${result.msg}\n`
-                    console.log(result)
+                    $.message += `【报名结果】 ${result.msg}\n`
+                    console.log(`\n报名失败: ${result}`)
                 }
             } catch (e) {
+                console.log(data);
+                $.logErr(e, resp);
             } finally {
                 resolve()
             }
@@ -135,15 +137,18 @@ function wakeup(timeout = 0) {
                 if(result.code === 1 ){
                     signup = result.data.signup_num
                     //console.log(result)
-                    console.log(`打卡 ${result.msg} \n`)
-                    console.log(`打卡时间： ${result.data.card_time} \n`)
-                    console.log(`瓜分人数 ${signup}\n`)
-                    console.log(`瓜分金额 ${result.data.jackpot_money}`)
+                    console.log(`\n打卡 ${result.msg} \n`)
+                    console.log(`\n打卡时间 ${result.data.card_time} \n`)
+                    console.log(`\n瓜分人数 ${signup}\n`)
+                    console.log(`\n瓜分金额 ${result.data.jackpot_money}`)
                     $.message = `【打卡结果】 ${result.msg}\n【打卡时间】 ${result.data.card_time}\n【瓜分人数】 ${signup}\n 【瓜分金额】 ${result.data.jackpot_money}元\n`
                 }else{
-                    console.log(result)
+                    $.message += `【打卡结果】 ${result.msg}\n`
+                    console.log(`\n打卡失败: ${result}`)
                 }
             } catch (e) {
+                console.log(data);
+                $.logErr(e, resp);
             } finally {
                 resolve()
             }

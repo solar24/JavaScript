@@ -9,7 +9,7 @@
 
 const $ = new Env('中青5_60宝箱');
 const notify = $.isNode() ? require('../sendNotify') : '';
-const { zq_5_60_file } = $.isNode() ? require('./zq_file') : '';
+const { zq_5_60_file, user_name } = $.isNode() ? require('./zq_file') : '';
 let zqerciboxbody= $.isNode() ? (process.env.zqerciboxbody ? process.env.zqerciboxbody : "") : ($.getdata('zqerciboxbody') ? $.getdata('zqerciboxbody') : "")
 let zqboxbodyArr = []
 let zqboxbodys = "", zqboxbody1, allScore
@@ -45,11 +45,11 @@ Object.keys(zqboxbodys).forEach((item) => {
 })
 !(async () => {
     if (typeof $request !== "undefined") {
-        getzqboxbody()
+        get_zq_box_body()
         $.done()
     }else {
         console.log(`\n====================共${zqboxbodyArr.length}个5_60任务====================\n`);
-        $.message = "\n"
+        $.message = ""
         for (let k = 0; k < zqboxbodyArr.length; k++) {
 
             zqboxbody1 = zqboxbodyArr[k];
@@ -62,24 +62,25 @@ Object.keys(zqboxbodys).forEach((item) => {
                 'Host': 'kandian.wkandian.com',
             }
 
-            await jcboxreward(jcboxheader)
+            await zq_box_reward(jcboxheader)
+
             let sleep_time = Math.floor(Math.random() * (1500 - 1000 + 1000) + 4000);
             console.log(`\n随机等待 ${sleep_time/1000} 秒\n`)
             await $.wait(sleep_time);
             console.log("\n\n")
         }
 
-        $.message += `【宝箱获得】: ${allScore} 金币\n\n`;
-        $.msg($.name, '', `${$.message}`);
+        $.message += `【中青账号】 ${user_name}\n【宝箱获得】 ${allScore} 金币\n`;
+        $.msg($.name, '', `\n${$.message}\n`);
         if ($.isNode()) {
-            await notify.sendNotify($.name, `${$.message}`);
+            await notify.sendNotify($.name, `\n${$.message}`);
         }
     }
 })()
     .catch((e) => $.logErr(e))
     .finally(() => $.done())
 
-function getzqboxbody() {
+function get_zq_box_body() {
     if ($request.url.match(/\/kandian.wkandian.com\/v17\/Ad\/getReward/)) {
         bodyVal = $request.body
         if (zqerciboxbody) {
@@ -101,7 +102,7 @@ function getzqboxbody() {
 
 }
 
-function jcboxreward(jcboxheader,timeout=0) {
+function zq_box_reward(jcboxheader,timeout=0) {
     return new Promise((resolve) => {
         let url = {
             url : 'https://kandian.wkandian.com/v17/Ad/getReward.json',
@@ -113,12 +114,13 @@ function jcboxreward(jcboxheader,timeout=0) {
                 if(result.success !== false ){
                     let score = result.items.score;
                     allScore += score;
-                    console.log('\n领取5-60奖励成功，获得：'+ score + '金币')
+                    console.log(`\n领取5-60奖励成功，获得 ${score} 金币`)
                 }else{
-                    console.log('\n领取5-60奖励失败，'+result.message)
-                    console.log(result)
+                    console.log(`\n领取5-60奖励失败: ${result}`)
                 }
             } catch (e) {
+                console.log(data);
+                $.logErr(e, resp);
             } finally {
                 resolve()
             }

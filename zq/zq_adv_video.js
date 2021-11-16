@@ -17,7 +17,7 @@ zq_cookie.txt
 
 const $ = new Env("中青福利视频");
 const notify = $.isNode() ? require('../sendNotify') : '';
-const { zq_cookie_file } = $.isNode() ? require('./zq_file') : '';
+const { zq_cookie_file, user_name } = $.isNode() ? require('./zq_file') : '';
 let zq_cookie = $.isNode() ? (process.env.zq_cookie ? process.env.zq_cookie : "") : ($.getdata('zq_cookie') ? $.getdata('zq_cookie') : "")
 let zq_cookieArr = [], zq_cookies = "";
 let zq_cookie1, bodyVal;
@@ -63,10 +63,10 @@ Object.keys(zq_cookies).forEach((item) => {
         //待处理cookie
         console.log(`\n中青账号Cookie: ${zq_cookie1}\n`)
 
-        $.message += `第 ${k + 1} 个账号观看福利视频\n\n`;
+        $.message += `【中青账号】 ${user_name}\n`;
         console.log(`\n--------第 ${k + 1} 个账号观看福利视频中--------\n`)
         for (let j = 0; j < 6; j++) {
-            $.message += `【第 ${j + 1} 次观看福利视频】  `
+            $.message += `【第 ${j + 1} 次观看福利视频】 `
             console.log(`\n--------第 ${j + 1} 次观看福利视频中--------\n`)
             await video(zq_cookie1)
             let sleep_time = Math.floor(Math.random() * (15000 - 10000 + 1000) + 30000);
@@ -75,7 +75,7 @@ Object.keys(zq_cookies).forEach((item) => {
         }
     }
 
-    $.msg($.name, '', `${$.message}`);
+    $.msg($.name, '', `\n${$.message}\n`);
     if ($.isNode()) {
         await notify.sendNotify($.name, `${$.message}`);
     }
@@ -103,9 +103,11 @@ function video(zq_cookie1, timeout = 0) {
                     $.message += `${result.message}\n`
                     console.log(`\n福利视频: ${result.message}\n`)
                 } else {
-                    console.log(result)
+                    console.log(`\n观看福利视频失败: ${result}`)
                 }
             } catch (e) {
+                console.log(data);
+                $.logErr(e, resp);
             } finally {
                 resolve()
             }

@@ -18,7 +18,7 @@ hostname = kandian.wkandian.com
 
 const $ = new Env('中青定时宝箱领取');
 const notify = $.isNode() ? require('../sendNotify') : '';
-const { zq_box_file } = $.isNode() ? require('./zq_file') : '';
+const { zq_box_file, user_name } = $.isNode() ? require('./zq_file') : '';
 let zqboxbody= $.isNode() ? (process.env.zqboxbody ? process.env.zqboxbody : "") : ($.getdata('zqboxbody') ? $.getdata('zqboxbody') : "")
 let zqboxbodyArr = []
 let zqboxbodys = "", zqboxbody1, allScore;
@@ -78,9 +78,9 @@ Object.keys(zqboxbodys).forEach((item) => {
             await $.wait(sleep_time)
             console.log("\n\n")
         }
-        $.message = `【定时宝箱奖励】 ${allScore}\n 金币`;
+        $.message = `【中青账号】 ${user_name}\n【定时宝箱奖励】 ${allScore} 金币`;
 
-        $.msg($.name, '', `${$.message}`);
+        $.msg($.name, '', `\n${$.message}\n`);
         if ($.isNode()) {
             await notify.sendNotify($.name, `${$.message}`);
         }
@@ -120,17 +120,17 @@ function zq_box_reward(jcboxheader,timeout=0) {
         $.post(url, async (err, resp, data) => {
             let score;
             try {
-
                 const result = JSON.parse(data)
                 if (result.success !== false) {
                     score = result.items.score;
                     allScore += parseInt(score);
-                    console.log('\n领取宝箱奖励成功，获得：' + score +'金币')
+                    console.log(`\n领取宝箱奖励成功，获得 ${score} 金币`)
                 } else {
-                    console.log('\n领取宝箱奖励失败，' + result.error_code)
-                    console.log(result)
+                    console.log(`\n领取宝箱奖励失败: ${result}`)
                 }
             } catch (e) {
+                console.log(data);
+                $.logErr(e, resp);
             } finally {
                 resolve()
             }

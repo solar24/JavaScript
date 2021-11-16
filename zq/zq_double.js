@@ -13,7 +13,7 @@ zq_cookie.txt
 
 const $ = new Env("中青阅读翻倍");
 const notify = $.isNode() ? require('../sendNotify') : '';
-const { zq_cookie_file } = $.isNode() ? require('./zq_file') : '';
+const { zq_cookie_file, user_name } = $.isNode() ? require('./zq_file') : '';
 let zq_cookie= $.isNode() ? (process.env.zq_cookie ? process.env.zq_cookie : "") : ($.getdata('zq_cookie') ? $.getdata('zq_cookie') : "")
 let zq_cookieArr = [], zq_cookies = "";
 let bodyVal, zq_cookie1, bodyVal1, bodyVal2, bodyVal3, bodyVal4, bodyVal5;
@@ -49,7 +49,7 @@ Object.keys(zq_cookies).forEach((item) => {
 !(async () => {
 
     if (typeof $request !== "undefined") {
-        await getzq_cookie()
+        await get_zq_cookie()
         $.done()
     } else {
         console.log(`\n====================共${zq_cookieArr.length}个中青账号Cookie====================\n`);
@@ -63,7 +63,7 @@ Object.keys(zq_cookies).forEach((item) => {
             //待处理cookie
             console.log(`\n中青账号Cookie: ${zq_cookie1}\n`)
 
-            $.message += `【第 ${k + 1} 个账号阅读翻倍】 `
+            $.message += `【中青账号】 ${user_name}\n `
             console.log(`\n--------第 ${k + 1} 个账号阅读翻倍中--------\n`)
             await today_score(zq_cookie1)
             let sleep_time = Math.floor(Math.random() * (1500 - 1000 + 1000) + 4000);
@@ -72,7 +72,7 @@ Object.keys(zq_cookies).forEach((item) => {
             console.log("\n\n")
         }
 
-        $.msg($.name, '', `${$.message}`);
+        $.msg($.name, '', `\n${$.message}\n`);
         if ($.isNode()) {
             await notify.sendNotify($.name, `${$.message}`);
         }
@@ -96,13 +96,15 @@ function today_score(zq_cookie1,timeout = 0) {
 
                 const result = JSON.parse(data)
                 if(result.success === true){
-                    console.log('\n翻倍结果:'+result.message)
+                    console.log(`\n翻倍结果: ${result.message}`)
                     $.message += `${result.message}\n`
                 }else{
                     $.message += `${result.message}\n`
-                    console.log(result)
+                    console.log(`\n翻倍结果: ${result}`)
                 }
             } catch (e) {
+                console.log(data);
+                $.logErr(e, resp);
             } finally {
                 resolve()
             }
@@ -111,7 +113,7 @@ function today_score(zq_cookie1,timeout = 0) {
 }
 
 
-async function getzq_cookie() {
+async function get_zq_cookie() {
     if ($request.url.match(/\/kandian.wkandian.com\/v17\/NewTask\/getTaskList/)) {
         bodyVal1 = $request.url.split('?')[1]
         bodyVal2 = bodyVal1.split('&token')[0]

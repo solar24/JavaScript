@@ -38,7 +38,7 @@
     {
       "name": "中青打卡赚",
       "type": "cron",
-      "time": "24 5,9 * * *",
+      "time": "24 6,9 * * *",
       "running": true,
       "job": {
         "type": "runjs",

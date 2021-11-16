@@ -73,7 +73,7 @@ Object.keys(zq_cookies).forEach((item) => {
         console.log("\n\n")
     }
 
-    $.msg($.name, '', `${$.message}`);
+    $.msg($.name, '', `\n${$.message}\n`);
     if ($.isNode()) {
         await notify.sendNotify($.name, `${$.message}`);
     }
@@ -95,17 +95,19 @@ function nickname(zq_cookie2, timeout = 0) {
 
                 const result = JSON.parse(data)
                 if (result.success === true) {
-                    console.log('\n昵称:' + result.items.user.nickname)
                     nickname1 = result.items.user.nickname
+                    $.setdata(nickname1, 'user_name');
+                    console.log(`\n昵称: ${nickname1}`)
                     let sleep_time = Math.floor(Math.random() * (1500 - 1000 + 1000) + 1000);
                     console.log(`\n随机等待 ${sleep_time/1000} 秒\n`)
                     await $.wait(sleep_time);
                     await today_score(zq_cookie1, nickname1)
-
                 } else {
-                    console.log(result)
+                    console.log(`\n获取用户信息失败: ${result}`)
                 }
             } catch (e) {
+                console.log(data);
+                $.logErr(e, resp);
             } finally {
                 resolve()
             }
@@ -126,14 +128,16 @@ function today_score(zq_cookie1, nickname1, timeout = 0) {
 
                 const result = JSON.parse(data)
                 if (result.status === 0) {
-                    console.log('\n今日收益总计:' + result.user.today_score)
-                    console.log('\n当前金币总数:' + result.user.score)
-                    console.log('\n折合人民币总数:' + result.user.money)
+                    console.log(`\n今日收益总计: ${result.user.today_score}`)
+                    console.log(`\n当前金币总数: ${result.user.score}`)
+                    console.log(`\n折合人民币总数: ${esult.user.money}`)
                     $.message += ` ${nickname1}\n【今日收益总计】 ${result.user.today_score}金币\n【当前金币总数】 ${result.user.score}(≈${result.user.money}元)\n`
                 } else {
-                    console.log(result)
+                    console.log(`\n查询用户资产失败: ${result}`)
                 }
             } catch (e) {
+                console.log(data);
+                $.logErr(e, resp);
             } finally {
                 resolve()
             }
@@ -173,15 +177,18 @@ function do_getOrderList() {
                     if (latest.status === '0') status = '预计2个工作日到账';
                     if (latest.status === '1') status = "提现成功";
                     if (latest.status === '2') status = "青豆已返回账户中";
-                    console.log(`===========风险评测===========`);
-                    console.log(`上次提现：${money}`);
-                    console.log(`上次提现时间：${add_time_str}`);
-                    console.log(`累计提现次数：${txLength}`);
-                    console.log(`累计提现金额：${total}`);
-                    console.log(`最新风险评测：${description}`);
+                    console.log(`\n===========风险评测===========`);
+                    console.log(`\n上次提现：${money}`);
+                    console.log(`\n上次提现时间：${add_time_str}`);
+                    console.log(`\n累计提现次数：${txLength}`);
+                    console.log(`\n累计提现金额：${total}`);
+                    console.log(`\n最新风险评测：${description}`);
                     $.message += `【最近提现时间】 ${add_time_str}\n【最近提现金额】 ${money}元\n【最近提现状态】 ${status}\n【最新风险评测】 ${description} \n【累计提现次数】 ${txLength}次\n【累计提现金额】 ${total}元 \n`;
+                } else {
+                    console.log(`\n风险评测失败: ${result}`);
                 }
             } catch (e) {
+                console.log(data);
                 $.logErr(e, resp);
             } finally {
                 resolve()

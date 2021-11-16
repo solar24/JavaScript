@@ -15,7 +15,7 @@ hostname = kandian.wkandian.com
 
 const $ = new Env("中青签到任务宝箱");
 const notify = $.isNode() ? require('../sendNotify') : '';
-const { zq_qd_file } = $.isNode() ? require('./zq_file') : '';
+const { zq_qd_file, user_name } = $.isNode() ? require('./zq_file') : '';
 let zqqdbody= $.isNode() ? (process.env.zqqdbody ? process.env.zqqdbody : "") : ($.getdata('zqqdbody') ? $.getdata('zqqdbody') : "")
 let zqqdbodyArr = []
 let zqqdbodys = "", zqqdbody1, allScore, successNum, failNum;
@@ -63,7 +63,7 @@ Object.keys(zqqdbodys).forEach((item) => {
 !(async () => {
 
     console.log(`\n====================共${zqqdbodyArr.length}个签到&宝箱奖励====================\n`);
-    $.message = `【签到宝箱总数】 ${zqqdbodyArr.length}\n`;
+    $.message = `【中青账号】 ${user_name}\n【签到宝箱总数】 ${zqqdbodyArr.length}\n`;
     allScore = 0;
     successNum = 0;
     failNum = 0;
@@ -81,7 +81,7 @@ Object.keys(zqqdbodys).forEach((item) => {
     $.message += `【本次运行金币】 ${allScore}\n`;
     $.message += `【本次失败数量】 ${failNum}\n`;
 
-    $.msg($.name, '', `${$.message}`);
+    $.msg($.name, '', `\n${$.message}\n`);
     if ($.isNode()) {
         await notify.sendNotify($.name, `${$.message}`);
     }
@@ -130,12 +130,14 @@ function jc_qd(timeout = 0) {
                     score = result.items.score;
                     successNum += 1;
                     allScore += parseInt(score);
-                    console.log('\n签到成功，获得：' + score + '金币')
+                    console.log(`\n签到成功，获得 ${score} 金币`)
                 } else {
                     failNum += 1;
-                    console.log('\n今日已签到，明天再来吧^_^')
+                    console.log(`\n今日已签到，明天再来吧^_^: ${result}`)
                 }
             } catch (e) {
+                console.log(data);
+                $.logErr(e, resp);
             } finally {
                 resolve()
             }

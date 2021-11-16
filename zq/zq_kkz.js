@@ -1,7 +1,7 @@
 /*
 脚本源地址：https://raw.githubusercontent.com/shaolin-kongfu/js_scripts/main/zq/zqkkz.js
 
-40 13,21 * * * https://raw.githubusercontent.com/solar24/JavaScript/main/zq/zq_kkz.js 中青看看赚
+10 13 * * * https://raw.githubusercontent.com/solar24/JavaScript/main/zq/zq_kkz.js 中青看看赚
 
 
 [rewrite_local]
@@ -15,7 +15,7 @@ hostname = kandian.wkandian.com
 */
 const $ = new Env("中青看看赚");
 const notify = $.isNode() ? require('../sendNotify') : '';
-const { zq_cookie_file, zq_kkz_file } = $.isNode() ? require('./zq_file') : '';
+const { zq_cookie_file, zq_kkz_file, user_name } = $.isNode() ? require('./zq_file') : '';
 let zqlookStartbody= $.isNode() ? (process.env.zqlookStartbody ? process.env.zqlookStartbody : "") : ($.getdata('zqlookStartbody') ? $.getdata('zqlookStartbody') : "")
 let zqlookStartbodyArr = []
 let zqlookStartbodys = ""
@@ -102,11 +102,11 @@ Object.keys(zqlookStartbodys).forEach((item) => {
 
 !(async () => {
     if (typeof $request !== "undefined") {
-        await getzqlookStartbody()
+        await getZqLookStartbody()
         $.done()
     }else{
         console.log(`\n====================共${zqlookStartbodyArr.length}个看看赚====================\n`);
-        $.message = `【看看赚总数量】 ${zqlookStartbodyArr.length}\n`;
+        $.message = `【中青账号】 ${user_name}\n【看看赚总数量】 ${zqlookStartbodyArr.length}\n`;
         msg = "";
         allScore = 0;
         successNum = 0;
@@ -150,7 +150,7 @@ Object.keys(zqlookStartbodys).forEach((item) => {
 
         }
 
-        $.msg($.name, '', `${$.message}`);
+        $.msg($.name, '', `\n${$.message}\n`);
         if ($.isNode()) {
             await notify.sendNotify($.name, `${$.message}`);
         }
@@ -162,7 +162,7 @@ Object.keys(zqlookStartbodys).forEach((item) => {
 
 
 //获取看看赚激活body
-async function getzqlookStartbody() {
+async function getZqLookStartbody() {
     if ($request.url.match(/\/kandian.wkandian.com\/v5\/nameless\/adlickstart/)) {
         bodyVal=$request.body
         await $.wait(1100);
@@ -199,16 +199,16 @@ function lookStart(number, timeout = 0) {
                     console.log('\n激活看看赚任务成功')
                     comstate = result.items.comtele_state
                     if(comstate === 1){
-                        console.log('\n任务: '+ result.items.banner_id+'已完成，跳过')
+                        console.log(`\n任务 ${result.items.banner_id} 已完成，跳过...`)
                         doNum += 1;
                     }else {
-                        $.log("任务开始，" + result.items.banner_id + result.message);
+                        console.log(`\n任务开始: ${result.items.banner_id} ${result.message}`);
                         for (let j = 0; j < result.items.see_num - result.items.read_num; j++) {
-                            $.log("任务执行第" + parseInt(j + 1) + "次")
+                            $.log(`\n任务执行第 ${parseInt(j + 1)} 次`)
                             let sleep_time = Math.floor(Math.random() * (1500 - 1000 + 1000) + 8000);
                             console.log(`\n随机等待 ${sleep_time/1000} 秒\n`)
                             await $.wait(sleep_time);
-                            await lookstart()
+                            await look_start()
                         }
                         let sleep_time = Math.floor(Math.random() * (1500 - 1000 + 1000) + 10000);
                         console.log(`\n随机等待 ${sleep_time/1000} 秒\n`)
@@ -217,11 +217,13 @@ function lookStart(number, timeout = 0) {
                     }
 
                 }else{
-                    console.log('\n激活看看赚任务失败');
+                    console.log(`\n激活看看赚任务失败: ${result}`);
                     failNum += 1;
                     msg += ` (${number}) `
                 }
             } catch (e) {
+                console.log(data);
+                $.logErr(e, resp);
             } finally {
                 resolve()
             }
@@ -229,7 +231,7 @@ function lookStart(number, timeout = 0) {
     })
 }
 //看看赚阅读
-function lookstart(timeout = 0) {
+function look_start(timeout = 0) {
     return new Promise((resolve) => {
         let url = {
             url : 'https://kandian.wkandian.com/v5/nameless/bannerstatus.json',
@@ -240,12 +242,13 @@ function lookstart(timeout = 0) {
 
                 const result = JSON.parse(data)
                 if(result.success === true ){
-                    console.log('\n浏览看看赚文章成功')
+                    console.log(`\n浏览看看赚文章成功`)
                 }else {
-                    console.log('\n浏览看看赚文章失败')
+                    console.log(`\n浏览看看赚文章失败: ${result}`)
                 }
-
             } catch (e) {
+                console.log(data);
+                $.logErr(e, resp);
             } finally {
                 resolve()
             }
@@ -268,11 +271,13 @@ function reward(timeout = 0) {
                     score = result.items.score
                     successNum += 1;
                     allScore += parseInt(score);
-                    console.log('\n看看赚获得：' + score + '金币')
+                    console.log(`\n看看赚获得 ${score} 金币`)
                 } else {
-                    console.log('\n领取奖励失败')
+                    console.log(`\n领取奖励失败: ${result}`)
                 }
             } catch (e) {
+                console.log(data);
+                $.logErr(e, resp);
             } finally {
                 resolve()
             }
@@ -294,11 +299,15 @@ function openBox(id, zq_cookie1, timeout=0) {
 
                 const result = JSON.parse(data)
                 if(result.status === 1){
-                    console.log(result.data)
+                    console.log(`\n领取奖励 ${result}`)
+                    $.message += `【领取奖励】 ${result.data}`
                 }else{
-                    console.log(result)
+                    console.log(`\n领取奖励 ${result}`)
+                    $.message += `【领取奖励】 ${result.msg}`
                 }
             } catch (e) {
+                console.log(data);
+                $.logErr(e, resp);
             } finally {
                 resolve()
             }
