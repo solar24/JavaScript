@@ -17,7 +17,8 @@ zq_cookie.txt
 
 const $ = new Env("中青福利视频");
 const notify = $.isNode() ? require('../sendNotify') : '';
-const { zq_cookie_file, user_name } = $.isNode() ? require('./zq_file') : '';
+const { zq_cookie_file } = $.isNode() ? require('./zq_file') : '';
+let user_name = $.isNode() ? require('./zq_file').user_name : ($.getdata('user_name') ? $.getdata('user_name') : "");
 let zq_cookie = $.isNode() ? (process.env.zq_cookie ? process.env.zq_cookie : "") : ($.getdata('zq_cookie') ? $.getdata('zq_cookie') : "")
 let zq_cookieArr = [], zq_cookies = "";
 let zq_cookie1, bodyVal;
@@ -103,7 +104,7 @@ function video(zq_cookie1, timeout = 0) {
                     $.message += `${result.message}\n`
                     console.log(`\n福利视频: ${result.message}\n`)
                 } else {
-                    console.log(`\n观看福利视频失败: ${result}`)
+                    console.log(`\n观看福利视频失败: ${JSON.stringify(result)}`)
                 }
             } catch (e) {
                 console.log(data);

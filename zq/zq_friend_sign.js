@@ -17,7 +17,8 @@ zq_cookie.txt
 
 const $ = new Env("中青好友签到红包");
 const notify = $.isNode() ? require('../sendNotify') : '';
-const { zq_cookie_file, user_name } = $.isNode() ? require('./zq_file') : '';
+const { zq_cookie_file } = $.isNode() ? require('./zq_file') : '';
+let user_name = $.isNode() ? require('./zq_file').user_name : ($.getdata('user_name') ? $.getdata('user_name') : "");
 let zq_cookie= $.isNode() ? (process.env.zq_cookie ? process.env.zq_cookie : "") : ($.getdata('zq_cookie') ? $.getdata('zq_cookie') : "")
 let zq_cookieArr = [], zq_cookies = "";
 let bodyVal, cookie, cookie_id, zq_cookie1, allScore;
@@ -107,7 +108,7 @@ function friendList(zq_cookie1,timeout = 0) {
                         await $.wait(sleep_time);
                     }
                 } else {
-                    console.log(`\n你个孤儿，没有好友: ${result}`)
+                    console.log(`\n你个孤儿，没有好友: ${JSON.stringify(result)}`)
                 }
             } catch (e) {
                 console.log(data);
@@ -136,7 +137,7 @@ function friendSign(uid,timeout = 0) {
                     allScore += parseInt(score);
                     console.log(`\n领取好友红包成功，获得 ${score} 金币`)
                 } else {
-                    console.log(`该好友未签到或红包已完: ${result}`)
+                    console.log(`\n该好友未签到或红包已完: ${JSON.stringify(result)}`)
                 }
             } catch (e) {
                 console.log(data);

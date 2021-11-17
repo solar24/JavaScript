@@ -18,7 +18,8 @@ hostname = kandian.wkandian.com
 
 const $ = new Env('中青定时宝箱领取');
 const notify = $.isNode() ? require('../sendNotify') : '';
-const { zq_box_file, user_name } = $.isNode() ? require('./zq_file') : '';
+const { zq_box_file } = $.isNode() ? require('./zq_file') : '';
+let user_name = $.isNode() ? require('./zq_file').user_name : ($.getdata('user_name') ? $.getdata('user_name') : "");
 let zqboxbody= $.isNode() ? (process.env.zqboxbody ? process.env.zqboxbody : "") : ($.getdata('zqboxbody') ? $.getdata('zqboxbody') : "")
 let zqboxbodyArr = []
 let zqboxbodys = "", zqboxbody1, allScore;
@@ -126,7 +127,7 @@ function zq_box_reward(jcboxheader,timeout=0) {
                     allScore += parseInt(score);
                     console.log(`\n领取宝箱奖励成功，获得 ${score} 金币`)
                 } else {
-                    console.log(`\n领取宝箱奖励失败: ${result}`)
+                    console.log(`\n领取宝箱奖励失败: ${JSON.stringify(result)}`)
                 }
             } catch (e) {
                 console.log(data);

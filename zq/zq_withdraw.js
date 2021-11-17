@@ -150,7 +150,7 @@ function nickname(zq_cookie2, timeout = 0) {
                     await today_score(zq_cookie1, nickname1)
 
                 } else {
-                    console.log(`\n获取用户信息失败: ${result}`)
+                    console.log(`\n获取用户信息失败: ${JSON.stringify(result)}`)
                 }
             } catch (e) {
                 console.log(data);
@@ -188,7 +188,7 @@ function today_score(zq_cookie1,timeout = 0) {
                         $.message += `【本次提现结果】 当前金币不满足兑换，请继续努力哦\n`
                     }
                 }else{
-                    console.log(`\n查询用户资产失败: ${result}`)
+                    console.log(`\n查询用户资产失败: ${JSON.stringify(result)}`)
                 }
             } catch (e) {
                 console.log(data);
@@ -221,11 +221,11 @@ function withdraw(zq_withdraw1,timeout = 0) {
 
                 const result = JSON.parse(data)
                 if (result.error_code === 0) {
-                    console.log(`\n【自动提现】提现${zq_cash}元成功: ${result}`)
+                    console.log(`\n【自动提现】提现${zq_cash}元成功: ${JSON.stringify(result)}`)
                     $.message += `【本次自动提现】 恭喜🎉！ 成功申请提现${zq_cash}元\n`;
                 } else {
                     $.message += `【本次自动提现】 失败，请前往日志查看原因\n`;
-                    console.log(`\n提现失败: ${result}`)
+                    console.log(`\n提现失败: ${JSON.stringify(result)}`)
                 }
             } catch (e) {
                 console.log(data);

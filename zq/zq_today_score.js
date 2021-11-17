@@ -103,7 +103,7 @@ function nickname(zq_cookie2, timeout = 0) {
                     await $.wait(sleep_time);
                     await today_score(zq_cookie1, nickname1)
                 } else {
-                    console.log(`\n获取用户信息失败: ${result}`)
+                    console.log(`\n获取用户信息失败: ${JSON.stringify(result)}`)
                 }
             } catch (e) {
                 console.log(data);
@@ -130,10 +130,10 @@ function today_score(zq_cookie1, nickname1, timeout = 0) {
                 if (result.status === 0) {
                     console.log(`\n今日收益总计: ${result.user.today_score}`)
                     console.log(`\n当前金币总数: ${result.user.score}`)
-                    console.log(`\n折合人民币总数: ${esult.user.money}`)
+                    console.log(`\n折合人民币总数: ${result.user.money}`)
                     $.message += ` ${nickname1}\n【今日收益总计】 ${result.user.today_score}金币\n【当前金币总数】 ${result.user.score}(≈${result.user.money}元)\n`
                 } else {
-                    console.log(`\n查询用户资产失败: ${result}`)
+                    console.log(`\n查询用户资产失败: ${JSON.stringify(result)}`)
                 }
             } catch (e) {
                 console.log(data);
@@ -185,7 +185,7 @@ function do_getOrderList() {
                     console.log(`\n最新风险评测：${description}`);
                     $.message += `【最近提现时间】 ${add_time_str}\n【最近提现金额】 ${money}元\n【最近提现状态】 ${status}\n【最新风险评测】 ${description} \n【累计提现次数】 ${txLength}次\n【累计提现金额】 ${total}元 \n`;
                 } else {
-                    console.log(`\n风险评测失败: ${result}`);
+                    console.log(`\n风险评测失败: ${JSON.stringify(result)}`);
                 }
             } catch (e) {
                 console.log(data);

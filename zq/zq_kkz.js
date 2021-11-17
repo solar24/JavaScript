@@ -15,7 +15,8 @@ hostname = kandian.wkandian.com
 */
 const $ = new Env("中青看看赚");
 const notify = $.isNode() ? require('../sendNotify') : '';
-const { zq_cookie_file, zq_kkz_file, user_name } = $.isNode() ? require('./zq_file') : '';
+const { zq_cookie_file, zq_kkz_file } = $.isNode() ? require('./zq_file') : '';
+let user_name = $.isNode() ? require('./zq_file').user_name : ($.getdata('user_name') ? $.getdata('user_name') : "");
 let zqlookStartbody= $.isNode() ? (process.env.zqlookStartbody ? process.env.zqlookStartbody : "") : ($.getdata('zqlookStartbody') ? $.getdata('zqlookStartbody') : "")
 let zqlookStartbodyArr = []
 let zqlookStartbodys = ""
@@ -217,7 +218,7 @@ function lookStart(number, timeout = 0) {
                     }
 
                 }else{
-                    console.log(`\n激活看看赚任务失败: ${result}`);
+                    console.log(`\n激活看看赚任务失败: ${JSON.stringify(result)}`);
                     failNum += 1;
                     msg += ` (${number}) `
                 }
@@ -244,7 +245,7 @@ function look_start(timeout = 0) {
                 if(result.success === true ){
                     console.log(`\n浏览看看赚文章成功`)
                 }else {
-                    console.log(`\n浏览看看赚文章失败: ${result}`)
+                    console.log(`\n浏览看看赚文章失败: ${JSON.stringify(result)}`)
                 }
             } catch (e) {
                 console.log(data);
@@ -273,7 +274,7 @@ function reward(timeout = 0) {
                     allScore += parseInt(score);
                     console.log(`\n看看赚获得 ${score} 金币`)
                 } else {
-                    console.log(`\n领取奖励失败: ${result}`)
+                    console.log(`\n领取奖励失败: ${JSON.stringify(result)}`)
                 }
             } catch (e) {
                 console.log(data);
@@ -299,10 +300,10 @@ function openBox(id, zq_cookie1, timeout=0) {
 
                 const result = JSON.parse(data)
                 if(result.status === 1){
-                    console.log(`\n领取奖励 ${result}`)
+                    console.log(`\n领取奖励 ${JSON.stringify(result)}`)
                     $.message += `【领取奖励】 ${result.data}`
                 }else{
-                    console.log(`\n领取奖励 ${result}`)
+                    console.log(`\n领取奖励 ${JSON.stringify(result)}`)
                     $.message += `【领取奖励】 ${result.msg}`
                 }
             } catch (e) {

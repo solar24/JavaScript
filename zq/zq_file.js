@@ -1,8 +1,8 @@
 /*
-    中青文件管理
+    中青文件资源管理
  */
 
-const $ = new Env("文件管理");
+const $ = new Env("中青文件资源");
 
 const zq_cookie_file = 'zq_cookie.txt'
 

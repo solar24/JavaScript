@@ -13,7 +13,8 @@ zq_cookie.txt
 
 const $ = new Env("中青大转盘抽奖");
 const notify = $.isNode() ? require('../sendNotify') : '';
-const { zq_cookie_file, user_name } = $.isNode() ? require('./zq_file') : '';
+const { zq_cookie_file } = $.isNode() ? require('./zq_file') : '';
+let user_name = $.isNode() ? require('./zq_file').user_name : ($.getdata('user_name') ? $.getdata('user_name') : "");
 let zq_cookie= $.isNode() ? (process.env.zq_cookie ? process.env.zq_cookie : "") : ($.getdata('zq_cookie') ? $.getdata('zq_cookie') : "")
 let zq_cookieArr = [], zq_cookies = "";
 let bodyVal, cookie, cookie_id, zq_cookie1, id, allScore;
@@ -111,10 +112,10 @@ function Rotary(zq_cookie1,cookie_id, time) {
                         allScore += parseInt(score);
                         console.log(`\n好家伙！你抽中了 ${score} 金币`)
                     } else {
-                        console.log(`\n你抽了个寂寞: ${result}`)
+                        console.log(`\n你抽了个寂寞: ${JSON.stringify(result)}`)
                     }
                 } else {
-                    console.log(`\n抽奖失败: ${result}`)
+                    console.log(`\n抽奖失败: ${JSON.stringify(result)}`)
                 }
             } catch (e) {
                 console.log(data);
@@ -150,10 +151,10 @@ function openBox(zq_cookie1,cookie_id,time,k,timeout = 0) {
                         console.log(`\n宝箱获得 ${score} 金币`)
 
                     }else {
-                        console.log(`\n宝箱打开获得: ${result}`)
+                        console.log(`\n宝箱打开获得: ${JSON.stringify(result)}`)
                     }
                 }else{
-                    console.log(`\n宝箱请求失败: ${result}`)
+                    console.log(`\n宝箱请求失败: ${JSON.stringify(result)}`)
                 }
             } catch (e) {
                 console.log(data);

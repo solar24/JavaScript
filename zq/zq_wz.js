@@ -19,7 +19,8 @@ kandian.wkandian.com
 
 const $ = new Env("中青文章视频");
 const notify = $.isNode() ? require('../sendNotify') : '';
-const { zq_wz_file, zq_wz_time_file, user_name } = $.isNode() ? require('./zq_file') : '';
+const { zq_wz_file, zq_wz_time_file } = $.isNode() ? require('./zq_file') : '';
+let user_name = $.isNode() ? require('./zq_file').user_name : ($.getdata('user_name') ? $.getdata('user_name') : "");
 let zqwzbody= $.isNode() ? (process.env.zqwzbody ? process.env.zqwzbody : "") : ($.getdata('zqwzbody') ? $.getdata('zqwzbody') : "")
 let zqwzbodyArr = []
 let zqwzbodys = ""
@@ -171,7 +172,7 @@ function wzjl(number, timeout = 0) {
             try {
                 const result = JSON.parse(data)
                 if (result.error_code === '200001') {
-                    console.log(`\n浏览文章失败: ${result}`)
+                    console.log(`\n浏览文章失败: ${JSON.stringify(result)}`)
                     msg += ` (${number}) `;
                 } else if (result.items.read_score !== "undefined" ){
                     let read_score = result.items.read_score;
@@ -181,7 +182,7 @@ function wzjl(number, timeout = 0) {
                         msg += ` (${number}) `;
                     }
                 }else{
-                    console.log(`\n看太久了，换一篇试试: ${result}`)
+                    console.log(`\n看太久了，换一篇试试: ${JSON.stringify(result)}`)
                 }
             } catch (e) {
                 console.log(data);
@@ -229,7 +230,7 @@ function timejl(timeout = 0) {
                 if(result.success === true ){
                     console.log(`\n阅读时长 ${result.time} 秒`)
                 }else{
-                    console.log(`\n更新阅读时长失败: ${result}`)
+                    console.log(`\n更新阅读时长失败: ${JSON.stringify(result)}`)
                 }
             } catch (e) {
                 console.log(data);

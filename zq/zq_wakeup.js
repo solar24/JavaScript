@@ -13,7 +13,8 @@ zq_cookie.txt
 
 const $ = new Env("中青打卡赚");
 const notify = $.isNode() ? require('../sendNotify') : '';
-const { zq_cookie_file, user_name } = $.isNode() ? require('./zq_file') : '';
+const { zq_cookie_file } = $.isNode() ? require('./zq_file') : '';
+let user_name = $.isNode() ? require('./zq_file').user_name : ($.getdata('user_name') ? $.getdata('user_name') : "");
 let zq_cookie= $.isNode() ? (process.env.zq_cookie ? process.env.zq_cookie : "") : ($.getdata('zq_cookie') ? $.getdata('zq_cookie') : "")
 let zq_cookieArr = [], zq_cookies = "";
 let bodyVal, cookie, cookie_id, zq_cookie1;
@@ -109,7 +110,7 @@ function signup(timeout = 0) {
                     $.message += `【打卡报名】 ${result.msg}\n【瓜分人数】 ${signup1} \n【瓜分金额】 ${result.data.jackpot_money}元\n`
                 }else{
                     $.message += `【报名结果】 ${result.msg}\n`
-                    console.log(`\n报名失败: ${result}`)
+                    console.log(`\n报名失败: ${JSON.stringify(result)}`)
                 }
             } catch (e) {
                 console.log(data);
@@ -141,10 +142,10 @@ function wakeup(timeout = 0) {
                     console.log(`\n打卡时间 ${result.data.card_time} \n`)
                     console.log(`\n瓜分人数 ${signup}\n`)
                     console.log(`\n瓜分金额 ${result.data.jackpot_money}`)
-                    $.message = `【打卡结果】 ${result.msg}\n【打卡时间】 ${result.data.card_time}\n【瓜分人数】 ${signup}\n 【瓜分金额】 ${result.data.jackpot_money}元\n`
+                    $.message += `【打卡结果】 ${result.msg}\n【打卡时间】 ${result.data.card_time}\n【瓜分人数】 ${signup}\n 【瓜分金额】 ${result.data.jackpot_money}元\n`
                 }else{
                     $.message += `【打卡结果】 ${result.msg}\n`
-                    console.log(`\n打卡失败: ${result}`)
+                    console.log(`\n打卡失败: ${JSON.stringify(result)}`)
                 }
             } catch (e) {
                 console.log(data);

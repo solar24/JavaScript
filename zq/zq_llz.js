@@ -14,7 +14,8 @@ hostname = kandian.wkandian.com
 
 const $ = new Env("中青浏览赚");
 const notify = $.isNode() ? require('../sendNotify') : '';
-const { zq_llz_file, user_name } = $.isNode() ? require('./zq_file') : '';
+const { zq_llz_file } = $.isNode() ? require('./zq_file') : '';
+let user_name = $.isNode() ? require('./zq_file').user_name : ($.getdata('user_name') ? $.getdata('user_name') : "");
 let zqllzbody= $.isNode() ? (process.env.zqllzbody ? process.env.zqllzbody : "") : ($.getdata('zqllzbody') ? $.getdata('zqllzbody') : "")
 let zqllzbodyArr = []
 let zqllzbodys = "", zqllzbody1, msg, allScore, successNum, failNum, doNum;
@@ -144,7 +145,7 @@ function Start(number, timeout = 0) {
                 } else {
                     failNum += 1;
                     msg += ` (${number}) `;
-                    console.log(`\n激活浏览赚任务失败: ${result}`)
+                    console.log(`\n激活浏览赚任务失败: ${JSON.stringify(result)}`)
                 }
             } catch (e) {
                 console.log(data);
@@ -173,7 +174,7 @@ function end(timeout = 0) {
                     allScore += parseInt(score);
                     console.log(`\n浏览赚获得: ${result.items.score} 金币`)
                 } else {
-                    console.log(`\n领取奖励失败: ${result}`)
+                    console.log(`\n领取奖励失败: ${JSON.stringify(result)}`)
                 }
             } catch (e) {
                 console.log(data);

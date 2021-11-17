@@ -9,7 +9,8 @@
 
 const $ = new Env('中青5_60宝箱');
 const notify = $.isNode() ? require('../sendNotify') : '';
-const { zq_5_60_file, user_name } = $.isNode() ? require('./zq_file') : '';
+const { zq_5_60_file } = $.isNode() ? require('./zq_file') : '';
+let user_name = $.isNode() ? require('./zq_file').user_name : ($.getdata('user_name') ? $.getdata('user_name') : "");
 let zqerciboxbody= $.isNode() ? (process.env.zqerciboxbody ? process.env.zqerciboxbody : "") : ($.getdata('zqerciboxbody') ? $.getdata('zqerciboxbody') : "")
 let zqboxbodyArr = []
 let zqboxbodys = "", zqboxbody1, allScore
@@ -116,7 +117,7 @@ function zq_box_reward(jcboxheader,timeout=0) {
                     allScore += score;
                     console.log(`\n领取5-60奖励成功，获得 ${score} 金币`)
                 }else{
-                    console.log(`\n领取5-60奖励失败: ${result}`)
+                    console.log(`\n领取5-60奖励失败: ${JSON.stringify(result)}`)
                 }
             } catch (e) {
                 console.log(data);

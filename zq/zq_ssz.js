@@ -14,7 +14,8 @@ hostname = kandian.wkandian.com
 
 const $ = new Env("中青搜索赚");
 const notify = $.isNode() ? require('../sendNotify') : '';
-const { zq_ssz_file, user_name } = $.isNode() ? require('./zq_file') : '';
+const { zq_ssz_file } = $.isNode() ? require('./zq_file') : '';
+let user_name = $.isNode() ? require('./zq_file').user_name : ($.getdata('user_name') ? $.getdata('user_name') : "");
 let zqsszbody= $.isNode() ? (process.env.zqsszbody ? process.env.zqsszbody : "") : ($.getdata('zqsszbody') ? $.getdata('zqsszbody') : "")
 let zqsszbodyArr = []
 let zqsszbodys = "", zqsszbody1, msg, allScore, successNum, failNum, doNum;
@@ -155,7 +156,7 @@ function Start(number, timeout = 0) {
                 } else {
                     failNum += 1;
                     msg += ` (${number}) `;
-                    console.log('\n激活搜索赚任务失败')
+                    console.log(`\n激活搜索赚任务失败: ${JSON.stringify(result)}`)
                 }
             } catch (e) {
             } finally {
@@ -208,7 +209,7 @@ function end(timeout = 0) {
                     allScore += parseInt(score);
                     console.log(`\n搜索赚获得 ${score} 金币`)
                 } else {
-                    console.log(`\n搜索赚奖励失败: ${result}`)
+                    console.log(`\n搜索赚奖励失败: ${JSON.stringify(result)}`)
                 }
             } catch (e) {
                 console.log(data);

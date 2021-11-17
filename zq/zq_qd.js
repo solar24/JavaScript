@@ -15,7 +15,8 @@ hostname = kandian.wkandian.com
 
 const $ = new Env("中青签到任务宝箱");
 const notify = $.isNode() ? require('../sendNotify') : '';
-const { zq_qd_file, user_name } = $.isNode() ? require('./zq_file') : '';
+const { zq_qd_file } = $.isNode() ? require('./zq_file') : '';
+let user_name = $.isNode() ? require('./zq_file').user_name : ($.getdata('user_name') ? $.getdata('user_name') : "");
 let zqqdbody= $.isNode() ? (process.env.zqqdbody ? process.env.zqqdbody : "") : ($.getdata('zqqdbody') ? $.getdata('zqqdbody') : "")
 let zqqdbodyArr = []
 let zqqdbodys = "", zqqdbody1, allScore, successNum, failNum;
@@ -133,7 +134,7 @@ function jc_qd(timeout = 0) {
                     console.log(`\n签到成功，获得 ${score} 金币`)
                 } else {
                     failNum += 1;
-                    console.log(`\n今日已签到，明天再来吧^_^: ${result}`)
+                    console.log(`\n今日已签到，明天再来吧^_^: ${JSON.stringify(result)}`)
                 }
             } catch (e) {
                 console.log(data);
