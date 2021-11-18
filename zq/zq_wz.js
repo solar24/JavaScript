@@ -174,7 +174,7 @@ function wzjl(number, timeout = 0) {
                 if (result.error_code === '200001') {
                     console.log(`\n浏览文章失败: ${JSON.stringify(result)}`)
                     msg += ` (${number}) `;
-                } else if (result.items.read_score !== "undefined" ){
+                } else if (typeof result.items.read_score !== "undefined" ){
                     let read_score = result.items.read_score;
                     allScore += parseInt(read_score);
                     console.log(`\n浏览文章成功，获得 ${read_score} 金币`)
