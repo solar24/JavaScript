@@ -180,7 +180,7 @@ function share_reward(timeout=0) {
                 const result = JSON.parse(data)
                 if(result.status === 1){
                     console.log(`\n领取奖励 ${JSON.stringify(result)}`)
-                    $.message += `【领取奖励】 ${result.data}`
+                    $.message += `【领取奖励】 领取成功`
                 }else{
                     console.log(`\n领取奖励 ${JSON.stringify(result)}`)
                     $.message += `【领取奖励】 ${result.msg}`

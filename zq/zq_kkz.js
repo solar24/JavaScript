@@ -141,7 +141,7 @@ Object.keys(zqlookStartbodys).forEach((item) => {
             console.log(`--------第 ${k + 1} 个账号看看赚上方宝箱奖励执行中--------\n`)
             for(let k = 0; k < 3; k++){
                 id = k.toString()
-                await openBox(id,zq_cookie1)
+                await openBox(id, zq_cookie1, k + 1)
                 let sleep_time = Math.floor(Math.random() * (15000 - 10000 + 1000) + 30000);
                 console.log(`\n随机等待 ${sleep_time/1000} 秒\n`)
                 await $.wait(sleep_time);
@@ -301,10 +301,10 @@ function openBox(id, zq_cookie1, timeout=0) {
                 const result = JSON.parse(data)
                 if(result.status === 1){
                     console.log(`\n领取奖励 ${JSON.stringify(result)}`)
-                    $.message += `【领取奖励】 ${result.data}`
+                    //$.message += `【领取奖励】 ${result.data}`
                 }else{
                     console.log(`\n领取奖励 ${JSON.stringify(result)}`)
-                    $.message += `【领取奖励】 ${result.msg}`
+                    //$.message += `【领取奖励】 ${result.msg}`
                 }
             } catch (e) {
                 console.log(data);

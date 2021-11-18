@@ -28,12 +28,6 @@ const qdheader={
     'Host': 'kandian.wkandian.com'
 };
 
-if (typeof $request !== "undefined") {
-    getzqqdbody()
-    $.done()
-}
-
-
 if (zqqdbody) {
     if (zqqdbody.indexOf("&") == -1) {
         zqqdbodyArr.push(zqqdbody)
@@ -62,38 +56,41 @@ Object.keys(zqqdbodys).forEach((item) => {
 })
 
 !(async () => {
+    if (typeof $request !== "undefined") {
+        await get_zq_qd_body()
+        $.done()
+    } else {
+        console.log(`\n====================共${zqqdbodyArr.length}个签到&宝箱奖励====================\n`);
+        $.message = `【中青账号】 ${user_name}\n【签到宝箱总数】 ${zqqdbodyArr.length}\n`;
+        allScore = 0;
+        successNum = 0;
+        failNum = 0;
+        for (let k = 0; k < zqqdbodyArr.length; k++) {
+            zqqdbody1 = zqqdbodyArr[k];
+            console.log(`${zqqdbody1}`)
+            console.log(`--------账号 ${k + 1} 签到任务执行中--------\n`)
+            await jc_qd()
+            let sleep_time = Math.floor(Math.random() * (1500 - 1000 + 1000) + 3000);
+            console.log(`\n随机等待 ${sleep_time / 1000} 秒\n`)
+            await $.wait(sleep_time)
+            console.log("\n\n")
+        }
+        $.message += `【本次成功数量】 ${successNum}\n`;
+        $.message += `【本次运行金币】 ${allScore}\n`;
+        $.message += `【本次失败数量】 ${failNum}\n`;
 
-    console.log(`\n====================共${zqqdbodyArr.length}个签到&宝箱奖励====================\n`);
-    $.message = `【中青账号】 ${user_name}\n【签到宝箱总数】 ${zqqdbodyArr.length}\n`;
-    allScore = 0;
-    successNum = 0;
-    failNum = 0;
-    for (let k = 0; k < zqqdbodyArr.length; k++) {
-        zqqdbody1 = zqqdbodyArr[k];
-        console.log(`${zqqdbody1}`)
-        console.log(`--------账号 ${k+1} 签到任务执行中--------\n`)
-        await jc_qd()
-        let sleep_time = Math.floor(Math.random() * (1500 - 1000 + 1000) + 3000);
-        console.log(`\n随机等待 ${sleep_time/1000} 秒\n`)
-        await $.wait(sleep_time)
-        console.log("\n\n")
+        $.msg($.name, '', `\n${$.message}\n`);
+        if ($.isNode()) {
+            await notify.sendNotify($.name, `${$.message}`);
+        }
     }
-    $.message += `【本次成功数量】 ${successNum}\n`;
-    $.message += `【本次运行金币】 ${allScore}\n`;
-    $.message += `【本次失败数量】 ${failNum}\n`;
-
-    $.msg($.name, '', `\n${$.message}\n`);
-    if ($.isNode()) {
-        await notify.sendNotify($.name, `${$.message}`);
-    }
-
 })()
     .catch((e) => $.logErr(e))
     .finally(() => $.done())
 
 
 //获取签到body
-function getzqqdbody() {
+function get_zq_qd_body() {
     if ($request.url.match(/\/kandian.wkandian.com\/v5\/CommonReward\/toGetReward/)) {
         bodyVal = $request.body
         if (zqqdbody) {

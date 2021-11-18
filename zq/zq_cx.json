@@ -4,6 +4,11 @@
   "mitmhost": ["kandian.wkandian.com"],
   "rewrite": [
     {
+      "match": "https://kandian.wkandian.com/v17/Ad/getReward.json",
+      "target": "https://raw.githubusercontent.com/solar24/JavaScript/main/zq/zq_5_60.js",
+      "enable": true
+    },
+    {
       "match": "https://kandian.wkandian.com/v5/article/info.json",
       "target": "https://raw.githubusercontent.com/solar24/JavaScript/main/zq/zq_wz.js",
       "enable": true
