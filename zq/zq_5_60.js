@@ -51,6 +51,7 @@ Object.keys(zqboxbodys).forEach((item) => {
     }else {
         console.log(`\n====================共${zqboxbodyArr.length}个5_60任务====================\n`);
         $.message = ""
+        allScore = 0;
         for (let k = 0; k < zqboxbodyArr.length; k++) {
 
             zqboxbody1 = zqboxbodyArr[k];
@@ -114,7 +115,7 @@ function zq_box_reward(jcboxheader,timeout=0) {
                 const result = JSON.parse(data)
                 if(result.success !== false ){
                     let score = result.items.score;
-                    allScore += score;
+                    allScore += parseInt(score);
                     console.log(`\n领取5-60奖励成功，获得 ${score} 金币`)
                 }else{
                     console.log(`\n领取5-60奖励失败: ${JSON.stringify(result)}`)
