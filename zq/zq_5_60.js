@@ -88,7 +88,7 @@ function get_zq_box_body() {
         if (zqerciboxbody) {
             if (zqerciboxbody.indexOf(bodyVal) > -1) {
                 $.log("此宝箱请求已存在，本次跳过")
-            } else if (zqerciboxbody.indexOf(bodyVal) == -1) {
+            } else if (zqerciboxbody.indexOf(bodyVal) === -1) {
                 zqboxbodys = zqerciboxbody + "@" + bodyVal;
                 $.setdata(zqboxbodys, 'zqerciboxbody');
                 $.log(`${$.name}获取任务: 成功, zqboxbodys: ${bodyVal}`);

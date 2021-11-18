@@ -24,6 +24,8 @@ const zq_wz_time_file = 'zq_wz_time.txt'
 
 const zq_5_60_file = 'zq_5_60.txt'
 
+const zq_share_read_file = 'zq_share_read.txt'
+
 const user_name = $.getdata('user_name') ? $.getdata('user_name') : 'user_name'
 
 
@@ -37,6 +39,7 @@ exports.zq_qd_file = zq_qd_file
 exports.zq_wz_file = zq_wz_file
 exports.zq_wz_time_file = zq_wz_time_file
 exports.zq_5_60_file = zq_5_60_file
+exports.zq_share_read_file = zq_share_read_file
 exports.user_name = user_name
 
 
