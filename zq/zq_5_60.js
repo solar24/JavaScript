@@ -10,6 +10,7 @@
 const $ = new Env('中青5_60宝箱');
 const notify = $.isNode() ? require('../sendNotify') : '';
 const { zq_5_60_file } = $.isNode() ? require('./zq_file') : '';
+let zqNotify = false;//是否关闭通知，false打开通知推送，true关闭通知推送
 let user_name = $.isNode() ? require('./zq_file').user_name : ($.getdata('user_name') ? $.getdata('user_name') : "");
 let zqerciboxbody= $.isNode() ? (process.env.zqerciboxbody ? process.env.zqerciboxbody : "") : ($.getdata('zqerciboxbody') ? $.getdata('zqerciboxbody') : "")
 let zqboxbodyArr = []
@@ -73,10 +74,16 @@ Object.keys(zqboxbodys).forEach((item) => {
         }
 
         $.message += `【中青账号】 ${user_name}\n【宝箱获得】 ${allScore} 金币\n`;
-        $.msg($.name, '', `\n${$.message}\n`);
-        if ($.isNode()) {
-            await notify.sendNotify($.name, `\n${$.message}`);
+
+        console.log($.message);
+
+        if (zqNotify) {
+            $.msg($.name, '', `\n${$.message}\n`);
+            if ($.isNode()) {
+                await notify.sendNotify($.name, `\n${$.message}`);
+            }
         }
+
     }
 })()
     .catch((e) => $.logErr(e))

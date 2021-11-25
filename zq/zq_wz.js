@@ -20,6 +20,7 @@ kandian.wkandian.com
 const $ = new Env("中青文章视频");
 const notify = $.isNode() ? require('../sendNotify') : '';
 const { zq_wz_file, zq_wz_time_file } = $.isNode() ? require('./zq_file') : '';
+let zqNotify = false;//是否关闭通知，false打开通知推送，true关闭通知推送
 let user_name = $.isNode() ? require('./zq_file').user_name : ($.getdata('user_name') ? $.getdata('user_name') : "");
 let zqwzbody= $.isNode() ? (process.env.zqwzbody ? process.env.zqwzbody : "") : ($.getdata('zqwzbody') ? $.getdata('zqwzbody') : "")
 let zqwzbodyArr = []
@@ -125,9 +126,13 @@ Object.keys(zqwzbodys).forEach((item) => {
         $.message += `【本次运行金币】 ${allScore}\n`;
         $.message += `【0金币文章视频】 ${msg === "" ? "无" : `第 ${msg} 行`}\n`;
 
-        $.msg($.name, '', `\n${$.message}\n`);
-        if ($.isNode()) {
-            await notify.sendNotify($.name, `${$.message}`);
+        console.log($.message);
+
+        if (zqNotify) {
+            $.msg($.name, '', `\n${$.message}\n`);
+            if ($.isNode()) {
+                await notify.sendNotify($.name, `\n${$.message}`);
+            }
         }
     }
 

@@ -16,6 +16,7 @@ const $ = new Env("中青浏览赚");
 const notify = $.isNode() ? require('../sendNotify') : '';
 const { zq_llz_file } = $.isNode() ? require('./zq_file') : '';
 let user_name = $.isNode() ? require('./zq_file').user_name : ($.getdata('user_name') ? $.getdata('user_name') : "");
+let zqNotify = false;//是否关闭通知，false打开通知推送，true关闭通知推送
 let zqllzbody= $.isNode() ? (process.env.zqllzbody ? process.env.zqllzbody : "") : ($.getdata('zqllzbody') ? $.getdata('zqllzbody') : "")
 let zqllzbodyArr = []
 let zqllzbodys = "", zqllzbody1, msg, allScore, successNum, failNum, doNum;
@@ -83,9 +84,13 @@ Object.keys(zqllzbodys).forEach((item) => {
         $.message += `【本次失败数量】 ${failNum}\n`;
         $.message += `【本次失败行数】 ${msg === "" ? "无" : `第 ${msg} 行`}\n`;
 
-        $.msg($.name, '', `\n${$.message}\n`);
-        if ($.isNode()) {
-            await notify.sendNotify($.name, `${$.message}`);
+        console.log($.message);
+
+        if (zqNotify) {
+            $.msg($.name, '', `\n${$.message}\n`);
+            if ($.isNode()) {
+                await notify.sendNotify($.name, `\n${$.message}`);
+            }
         }
     }
 })()

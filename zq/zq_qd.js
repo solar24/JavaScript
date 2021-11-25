@@ -17,6 +17,7 @@ const $ = new Env("中青签到任务宝箱");
 const notify = $.isNode() ? require('../sendNotify') : '';
 const { zq_qd_file } = $.isNode() ? require('./zq_file') : '';
 let user_name = $.isNode() ? require('./zq_file').user_name : ($.getdata('user_name') ? $.getdata('user_name') : "");
+let zqNotify = false;//是否关闭通知，false打开通知推送，true关闭通知推送
 let zqqdbody= $.isNode() ? (process.env.zqqdbody ? process.env.zqqdbody : "") : ($.getdata('zqqdbody') ? $.getdata('zqqdbody') : "")
 let zqqdbodyArr = []
 let zqqdbodys = "", zqqdbody1, allScore, successNum, failNum;
@@ -79,9 +80,13 @@ Object.keys(zqqdbodys).forEach((item) => {
         $.message += `【本次运行金币】 ${allScore}\n`;
         $.message += `【本次失败数量】 ${failNum}\n`;
 
-        $.msg($.name, '', `\n${$.message}\n`);
-        if ($.isNode()) {
-            await notify.sendNotify($.name, `${$.message}`);
+        console.log($.message);
+
+        if (zqNotify) {
+            $.msg($.name, '', `\n${$.message}\n`);
+            if ($.isNode()) {
+                await notify.sendNotify($.name, `\n${$.message}`);
+            }
         }
     }
 })()

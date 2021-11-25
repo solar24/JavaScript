@@ -15,6 +15,7 @@ hostname = kandian.wkandian.com
 const $ = new Env("中青搜索赚");
 const notify = $.isNode() ? require('../sendNotify') : '';
 const { zq_ssz_file } = $.isNode() ? require('./zq_file') : '';
+let zqNotify = false;//是否关闭通知，false打开通知推送，true关闭通知推送
 let user_name = $.isNode() ? require('./zq_file').user_name : ($.getdata('user_name') ? $.getdata('user_name') : "");
 let zqsszbody= $.isNode() ? (process.env.zqsszbody ? process.env.zqsszbody : "") : ($.getdata('zqsszbody') ? $.getdata('zqsszbody') : "")
 let zqsszbodyArr = []
@@ -83,9 +84,13 @@ Object.keys(zqsszbodys).forEach((item) => {
         $.message += `【本次失败数量】 ${failNum}\n`;
         $.message += `【本次失败行数】 ${msg === "" ? "无" : `第 ${msg} 行`}\n`;
 
-        $.msg($.name, '', `\n${$.message}\n`);
-        if ($.isNode()) {
-            await notify.sendNotify($.name, `${$.message}`);
+        console.log($.message);
+
+        if (zqNotify) {
+            $.msg($.name, '', `\n${$.message}\n`);
+            if ($.isNode()) {
+                await notify.sendNotify($.name, `\n${$.message}`);
+            }
         }
     }
 })()

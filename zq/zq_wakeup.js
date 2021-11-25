@@ -14,6 +14,7 @@ zq_cookie.txt
 const $ = new Env("中青打卡赚");
 const notify = $.isNode() ? require('../sendNotify') : '';
 const { zq_cookie_file } = $.isNode() ? require('./zq_file') : '';
+let zqNotify = false;//是否关闭通知，false打开通知推送，true关闭通知推送
 let user_name = $.isNode() ? require('./zq_file').user_name : ($.getdata('user_name') ? $.getdata('user_name') : "");
 let zq_cookie= $.isNode() ? (process.env.zq_cookie ? process.env.zq_cookie : "") : ($.getdata('zq_cookie') ? $.getdata('zq_cookie') : "")
 let zq_cookieArr = [], zq_cookies = "";
@@ -80,9 +81,13 @@ Object.keys(zq_cookies).forEach((item) => {
         }
     }
 
-    $.msg($.name, '', `\n${$.message}\n`);
-    if ($.isNode()) {
-        await notify.sendNotify($.name, `${$.message}`);
+    console.log($.message);
+
+    if (zqNotify) {
+        $.msg($.name, '', `\n${$.message}\n`);
+        if ($.isNode()) {
+            await notify.sendNotify($.name, `\n${$.message}`);
+        }
     }
 })()
     .catch((e) => $.logErr(e))

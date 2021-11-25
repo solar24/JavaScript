@@ -17,6 +17,7 @@ const $ = new Env("中青看看赚");
 const notify = $.isNode() ? require('../sendNotify') : '';
 const { zq_cookie_file, zq_kkz_file } = $.isNode() ? require('./zq_file') : '';
 let user_name = $.isNode() ? require('./zq_file').user_name : ($.getdata('user_name') ? $.getdata('user_name') : "");
+let zqNotify = false;//是否关闭通知，false打开通知推送，true关闭通知推送
 let zqlookStartbody= $.isNode() ? (process.env.zqlookStartbody ? process.env.zqlookStartbody : "") : ($.getdata('zqlookStartbody') ? $.getdata('zqlookStartbody') : "")
 let zqlookStartbodyArr = []
 let zqlookStartbodys = ""
@@ -151,9 +152,13 @@ Object.keys(zqlookStartbodys).forEach((item) => {
 
         }
 
-        $.msg($.name, '', `\n${$.message}\n`);
-        if ($.isNode()) {
-            await notify.sendNotify($.name, `${$.message}`);
+        console.log($.message);
+
+        if (zqNotify) {
+            $.msg($.name, '', `\n${$.message}\n`);
+            if ($.isNode()) {
+                await notify.sendNotify($.name, `\n${$.message}`);
+            }
         }
 
     }

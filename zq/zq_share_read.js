@@ -17,8 +17,8 @@ https://gitee.com/curtinlv/qx/raw/master/rewrite/youth.conf, tag=中青 by Curti
 const $ = new Env("中青分享阅读助力");
 const notify = $.isNode() ? require('../sendNotify') : '';
 const { zq_share_read_file } = $.isNode() ? require('./zq_file') : '';
+let zqNotify = false;//是否关闭通知，false打开通知推送，true关闭通知推送
 let user_name = $.isNode() ? require('./zq_file').user_name : ($.getdata('user_name') ? $.getdata('user_name') : "");
-
 let zqShareReadUrl= $.isNode() ? (process.env.zqShareReadUrl ? process.env.zqShareReadUrl : "") : ($.getdata('zqShareReadUrl') ? $.getdata('zqShareReadUrl') : "")
 let zqShareReadUrls = '', zqShareReadUrlArr = [], zqShareReadUrl1
 
@@ -77,9 +77,13 @@ Object.keys(zqShareReadUrls).forEach((item) => {
         }
 
         $.message = `【中青账号】 ${user_name}\n【分享阅读数量】 ${zqShareReadUrlArr.length} 【分享阅读结果】 分享完成🎉\n`;
-        $.msg($.name, '', `\n${$.message}\n`);
-        if ($.isNode()) {
-            await notify.sendNotify($.name, `\n${$.message}`);
+        console.log($.message);
+
+        if (zqNotify) {
+            $.msg($.name, '', `\n${$.message}\n`);
+            if ($.isNode()) {
+                await notify.sendNotify($.name, `\n${$.message}`);
+            }
         }
     }
 })()
