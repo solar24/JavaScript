@@ -108,7 +108,7 @@
     {
       "name": "中青看看赚",
       "type": "cron",
-      "time": "10 13,21 * * *",
+      "time": "10 13 * * *",
       "running": true,
       "job": {
         "type": "runjs",
